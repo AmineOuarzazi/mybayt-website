@@ -250,29 +250,91 @@
   .typo tbody td:first-child { color: var(--gold); }
   .typo tbody td.range { font-family: var(--ff-body); font-weight: 400; font-size: 14px; color: var(--ink-mid); }
 
+  /* ── CTA / Contact ── */
   .cta {
-    background: var(--ink); color: white; padding: 96px 64px;
-    display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+    background: var(--ink); color: white;
+    padding: 120px 64px 96px;
     border-top: 1px solid rgba(255,255,255,0.08);
+    position: relative;
   }
-  .cta .eyebrow { color: var(--gold-light); }
-  .cta h3 { font-family: var(--ff-display); font-weight: 300; font-size: clamp(28px, 3vw, 44px); line-height: 1.15; margin-bottom: 24px; }
-  .cta h3 em { font-style: italic; color: var(--gold-light); }
-  .cta p { font-size: 14px; line-height: 1.85; color: rgba(255,255,255,0.55); max-width: 420px; }
-  .cta .right { display: flex; flex-direction: column; gap: 14px; border-left: 1px solid rgba(255,255,255,0.12); padding-left: 64px; }
-  .cta .right a.tel {
-    font-family: var(--ff-display); font-weight: 300; font-size: 30px; color: white;
-    text-decoration: none; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.1);
-    display: flex; justify-content: space-between; align-items: center; transition: color 0.2s;
+  .cta .head { margin-bottom: 64px; }
+  .cta .head .eyebrow,
+  .cta .head h3 { max-width: 720px; }
+  .cta .head .eyebrow { color: var(--gold-light); }
+  .cta .head h3 {
+    font-family: var(--ff-display); font-weight: 300;
+    font-size: clamp(28px, 3vw, 42px); line-height: 1.15; color: white; margin: 0;
   }
-  .cta .right a.tel:hover { color: var(--gold-light); }
-  .cta .right a.email { margin-top: 16px; font-size: 13px; letter-spacing: 0.06em; color: var(--gold-light); text-decoration: none; }
-  .cta .right a.btn {
-    display: inline-block; align-self: flex-start; background: var(--gold); color: white;
-    text-decoration: none; padding: 16px 40px; margin-top: 12px;
-    font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; transition: background 0.2s;
+  .cta .head h3 em { font-style: italic; color: var(--gold-light); }
+  .cta .head .rule {
+    margin-top: 28px; height: 1px; width: 100%;
+    background: rgba(255,255,255,0.06); position: relative;
+    --gold-w: 0%;
   }
-  .cta .right a.btn:hover { background: oklch(52% 0.11 60); }
+  .cta .head .rule::after {
+    content: ""; position: absolute; inset: 0 auto 0 0;
+    width: var(--gold-w); background: var(--gold);
+    transition: width 0.05s linear;
+  }
+  .cta .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+  .cta .info { display: flex; flex-direction: column; gap: 48px; }
+  .cta .info .lede {
+    font-family: var(--ff-body); font-size: 14px; line-height: 1.85;
+    color: rgba(255,255,255,0.45); max-width: 380px; margin: 0;
+  }
+  .cta .info .label {
+    font-family: var(--ff-body); font-size: 11px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--gold-light); margin-bottom: 16px;
+  }
+  .cta .info .label.muted { color: rgba(255,255,255,0.3); letter-spacing: 0.12em; margin-bottom: 8px; }
+  .cta .info .phones a {
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: var(--ff-display); font-weight: 300; font-size: 26px;
+    color: white; text-decoration: none; letter-spacing: 0.02em;
+    padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.08);
+    transition: color 0.2s;
+  }
+  .cta .info .phones a:hover { color: var(--gold-light); }
+  .cta .info .phones a span:last-child { font-size: 14px; opacity: 0.35; }
+  .cta .info .meta { display: flex; flex-direction: column; gap: 20px; }
+  .cta .info .meta .addr {
+    font-family: var(--ff-body); font-size: 14px; line-height: 1.7; color: rgba(255,255,255,0.5);
+  }
+  .cta .info .meta a.email {
+    font-family: var(--ff-body); font-size: 14px;
+    color: var(--gold-light); text-decoration: none; transition: opacity 0.2s;
+  }
+  .cta .info .meta a.email:hover { opacity: 0.7; }
+  .cta .form-wrap { border-left: 1px solid rgba(255,255,255,0.1); padding-left: 80px; }
+  .cta form { display: flex; flex-direction: column; gap: 32px; }
+  .cta form .field label {
+    font-family: var(--ff-body); font-size: 11px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: rgba(255,255,255,0.35);
+    display: block; margin-bottom: 4px;
+  }
+  .cta form .field input,
+  .cta form .field textarea {
+    width: 100%; background: transparent; border: none;
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+    color: white; font-family: var(--ff-body); font-size: 15px;
+    padding: 10px 0 12px; outline: none; transition: border-color 0.25s;
+  }
+  .cta form .field input::placeholder,
+  .cta form .field textarea::placeholder { color: rgba(255,255,255,0.25); }
+  .cta form .field input:focus,
+  .cta form .field textarea:focus { border-bottom-color: var(--gold-light); }
+  .cta form .field textarea { resize: none; min-height: 96px; }
+  .cta form button[type="submit"] {
+    align-self: flex-start; font-family: var(--ff-body);
+    font-size: 12px; font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase;
+    background: var(--gold); color: white; border: none;
+    padding: 16px 40px; cursor: pointer; transition: background 0.2s;
+  }
+  .cta form button[type="submit"]:hover { background: oklch(52% 0.11 60); }
+  .cta .sent { display: flex; flex-direction: column; gap: 14px; padding-top: 8px; }
+  .cta .sent .check { font-family: var(--ff-display); font-size: 48px; color: var(--gold-light); line-height: 1; }
+  .cta .sent .ttl { font-family: var(--ff-display); font-size: 28px; font-weight: 300; color: white; margin: 0; }
+  .cta .sent .sub { font-family: var(--ff-body); font-size: 14px; color: rgba(255,255,255,0.45); margin: 0; }
 
   footer {
     background: var(--ink); color: rgba(255,255,255,0.45);
@@ -284,7 +346,10 @@
   .reveal.visible { opacity: 1; transform: none; }
 
   @media (max-width: 900px) {
-    .intro, .location, .cta { grid-template-columns: 1fr !important; gap: 56px !important; padding: 80px 28px; }
+    .intro, .location { grid-template-columns: 1fr !important; gap: 56px !important; padding: 80px 28px; }
+    .cta { padding: 80px 28px; }
+    .cta .cols { grid-template-columns: 1fr !important; gap: 56px; }
+    .cta .form-wrap { border-left: none; padding-left: 0; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 40px; }
     .specs { grid-template-columns: repeat(2, 1fr); }
     .features .grid { grid-template-columns: 1fr; }
     .gallery .grid { grid-template-columns: 1fr; grid-auto-rows: 240px; }
@@ -292,6 +357,152 @@
     .nav { padding: 0 20px; }
     .hero-inner, .gallery, .features, .typo, footer { padding-left: 28px; padding-right: 28px; }
   }
+
+  /* ──────────────────────────────────────────────────────────────
+     MOBILE LAYER — only active ≤ 900px. Desktop is untouched.
+     ────────────────────────────────────────────────────────────── */
+  @media (max-width: 900px) {
+    /* NAV */
+    .nav { padding: 0 16px !important; height: 60px !important; }
+    .nav a.back { font-size: 11px !important; }
+    .nav img.logo { height: 26px !important; }
+    .nav .ph {
+      font-size: 0 !important; padding: 0 !important; border: none !important;
+      width: 36px !important; height: 36px !important; border-radius: 50% !important;
+      background: var(--gold) !important; position: relative !important;
+    }
+    .nav .ph::before {
+      content: '☎'; font-size: 16px; color: white;
+      position: absolute; inset: 0; display: flex;
+      align-items: center; justify-content: center;
+    }
+
+    /* HERO */
+    .hero { min-height: 90vh !important; }
+    .hero-inner {
+      padding: 100px 24px 48px !important;
+      grid-template-columns: 1fr !important;
+      gap: 32px !important;
+    }
+    .hero-inner h1 { font-size: clamp(44px, 12vw, 64px) !important; }
+    .hero-inner .sub { font-size: 15px !important; }
+    .hero-inner .col-r {
+      text-align: left !important;
+      align-self: flex-start !important;
+      padding-top: 16px !important;
+      border-top: 1px solid rgba(255,255,255,0.18) !important;
+    }
+    .hero-inner .price { font-size: 32px !important; }
+
+    /* SPECS */
+    .specs { grid-template-columns: 1fr 1fr !important; }
+    .specs > div {
+      padding: 24px 20px !important;
+      border-right: 1px solid var(--rule) !important;
+      border-bottom: 1px solid var(--rule) !important;
+    }
+    .specs > div:nth-child(2n) { border-right: none !important; }
+    .specs > div:last-child { border-bottom: none !important; }
+    .specs .val { font-size: 16px !important; }
+
+    /* INTRO / generic 2-col sections */
+    .intro, .location, .cta, .life {
+      padding: 64px 24px !important;
+      grid-template-columns: 1fr !important;
+      gap: 40px !important;
+    }
+    .intro p { font-size: 14px !important; }
+    .intro .pull { font-size: 22px !important; }
+    .section-title { font-size: clamp(28px, 7vw, 38px) !important; }
+
+    /* LOCATION */
+    .location .map { aspect-ratio: 1 / 1 !important; }
+    .location ul.poi li {
+      grid-template-columns: 64px 1fr !important;
+      gap: 12px !important;
+    }
+    .location ul.poi li .meta { display: none; }
+    .location ul.poi .dist { font-size: 18px !important; }
+
+    /* GALLERY */
+    .gallery { padding: 64px 24px !important; }
+    .gallery .head {
+      flex-direction: column !important;
+      align-items: flex-start !important;
+      gap: 12px !important;
+      margin-bottom: 32px !important;
+      padding-bottom: 20px !important;
+    }
+    .gallery .grid {
+      grid-template-columns: 1fr 1fr !important;
+      grid-auto-rows: 130px !important;
+      gap: 8px !important;
+    }
+    .gallery .grid > a:nth-child(1) { grid-column: span 2 !important; grid-row: span 2 !important; }
+    .gallery .grid > a:nth-child(n+2) { grid-column: span 1 !important; grid-row: span 1 !important; }
+
+    /* FEATURES */
+    .features { padding: 64px 24px !important; }
+    .features .head { margin-bottom: 36px !important; }
+    .features .head h2 { font-size: clamp(28px, 7vw, 40px) !important; }
+    .features .grid { grid-template-columns: 1fr !important; }
+    .features .item { padding: 28px 24px !important; }
+    .features .item h4 { font-size: 20px !important; }
+
+    /* LIFE */
+    .life { display: block !important; }
+    .life > div {
+      min-height: 380px !important;
+      padding: 56px 28px !important;
+    }
+    .life > div h3 { font-size: 28px !important; max-width: 100% !important; }
+    .life > div p { font-size: 13px !important; }
+    .life.single > div { min-height: 480px !important; padding: 64px 28px !important; }
+    .life.single > div h3 { font-size: 36px !important; }
+
+    /* TYPOLOGIES table — responsive scroll */
+    .typo { padding: 64px 24px !important; }
+    .typo .head { margin-bottom: 28px !important; }
+    .typo .head h2 { font-size: clamp(28px, 7vw, 40px) !important; }
+    .typo table { display: block; overflow-x: auto; white-space: nowrap; }
+    .typo th, .typo td { padding: 16px 12px !important; }
+    .typo tbody td { font-size: 16px !important; }
+
+    /* CTA */
+    .cta { padding: 64px 24px !important; }
+    .cta .cols, .cta > div[class*="grid"] {
+      grid-template-columns: 1fr !important;
+      gap: 40px !important;
+    }
+    .cta .form-wrap, .cta .right {
+      border-left: none !important;
+      padding-left: 0 !important;
+      border-top: 1px solid rgba(255,255,255,0.12) !important;
+      padding-top: 28px !important;
+    }
+    .cta .head h3 { font-size: clamp(26px, 6vw, 36px) !important; }
+    .cta .right a.tel { font-size: 22px !important; }
+
+    /* TIMELINE / band sections — generic safety */
+    .band { padding: 0 !important; }
+    .band img { aspect-ratio: 4 / 3 !important; object-fit: cover; }
+    .band .caption { padding: 20px 24px !important; font-size: 13px !important; }
+
+    /* FOOTER */
+    footer {
+      padding: 24px !important;
+      flex-direction: column !important;
+      gap: 8px !important;
+      align-items: flex-start !important;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero-inner h1 { font-size: 44px !important; }
+    .specs > div { padding: 20px 16px !important; }
+    .gallery .grid { grid-auto-rows: 110px !important; }
+  }
+
 </style>
 </head>
 <body>
@@ -348,38 +559,7 @@
 
 <section class="location">
   <div class="map">
-    <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice">
-      <g fill="rgba(159,108,57,0.06)">
-        <rect x="30" y="40" width="110" height="80" />
-        <rect x="170" y="50" width="100" height="70" />
-        <rect x="290" y="60" width="90" height="90" />
-        <rect x="40" y="310" width="120" height="100" />
-        <rect x="260" y="330" width="110" height="90" />
-      </g>
-      <g stroke="rgba(159,108,57,0.22)" stroke-width="1">
-        <path d="M0,140 L400,135" />
-        <path d="M0,230 L400,238" />
-        <path d="M0,310 L400,318" />
-        <path d="M0,420 L400,418" />
-        <path d="M150,0 L160,500" />
-        <path d="M260,0 L268,500" />
-      </g>
-      <g stroke="rgba(159,108,57,0.45)" stroke-width="2">
-        <path d="M0,260 Q200,250 400,272" fill="none" />
-      </g>
-      <circle cx="100" cy="170" r="3.5" fill="var(--ink-light)" />
-      <text x="110" y="174" font-family="DM Sans" font-size="10" fill="var(--ink-mid)">Lycée Victor Hugo</text>
-      <circle cx="310" cy="200" r="3.5" fill="var(--ink-light)" />
-      <text x="218" y="204" font-family="DM Sans" font-size="10" fill="var(--ink-mid)">Institut français</text>
-      <circle cx="60" cy="410" r="3.5" fill="var(--ink-light)" />
-      <text x="70" y="414" font-family="DM Sans" font-size="10" fill="var(--ink-mid)">Carré Eden</text>
-      <circle cx="330" cy="380" r="3.5" fill="var(--ink-light)" />
-      <text x="230" y="384" font-family="DM Sans" font-size="10" fill="var(--ink-mid)">Av. Mohammed V</text>
-    </svg>
-    <div class="pin">
-      <div class="dot"></div>
-      <div class="lbl">Vallée de Guéliz 3</div>
-    </div>
+    <iframe src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3440.8738864026623!2d-8.024948924383507!3d31.643521974157803!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMzHCsDM4JzM2LjciTiA4wrAwMScyMC42Ilc!5e1!3m2!1sen!2str!4v1777891361871!5m2!1sen!2str" style="position:absolute;inset:0;width:100%;height:100%;border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
   </div>
   <div>
     <div class="eyebrow">Au cœur de Guéliz</div>
@@ -431,7 +611,7 @@
     <div class="item"><span class="num">01</span><h4>Volumétrie d'angle</h4><p>Implantation en angle de rues, double exposition pour la majorité des appartements.</p></div>
     <div class="item"><span class="num">02</span><h4>Balcons traversants</h4><p>Chaque appartement dispose de balcons en façade, généreusement plantés et largement ouverts.</p></div>
     <div class="item"><span class="num">03</span><h4>Marbre & parquet</h4><p>Marbre premier choix dans les espaces communs, parquet noble dans les chambres.</p></div>
-    <div class="item"><span class="num">04</span><h4>Climatisation centralisée</h4><p>Climatisation gainable régulée pièce par pièce, diffusion invisible.</p></div>
+    <div class="item"><span class="num">04</span><h4>Pré-équipement climatisation</h4><p>Infrastructure préexistante pour climatisation individuelle, à installer selon les besoins de chaque logement.</p></div>
     <div class="item"><span class="num">05</span><h4>Menuiseries en bois noble</h4><p>Portes intérieures et habillages en essences sélectionnées, finition sur mesure.</p></div>
     <div class="item"><span class="num">06</span><h4>Aluminium thermo-laqué</h4><p>Menuiseries extérieures en aluminium haut de gamme, profilés à rupture de pont.</p></div>
     <div class="item"><span class="num">07</span><h4>Commerces en RDC</h4><p>Pieds d'immeuble animés par des commerces sélectionnés, sans nuisance pour les résidents.</p></div>
@@ -484,16 +664,51 @@
 </section>
 
 <section class="cta">
-  <div>
+  <div class="head">
     <div class="eyebrow">Prendre rendez-vous</div>
     <h3>Visitez Vallée de <em>Guéliz 3</em></h3>
-    <p>Notre équipe commerciale vous accueille pour une présentation détaillée du projet, des plans et des appartements disponibles.</p>
+    <div class="rule"></div>
   </div>
-  <div class="right">
-    <a href="tel:+212666091909" class="tel"><span>+212 6 66 09 19 09</span><span style="font-size:14px; opacity:0.4;">→</span></a>
-    <a href="tel:+212666095708" class="tel"><span>+212 6 66 09 57 08</span><span style="font-size:14px; opacity:0.4;">→</span></a>
-    <a href="mailto:contact@mybayt.ma" class="email">contact@mybayt.ma</a>
-    <a href="../MyBayt Redesign.html#contact" class="btn">Demander la brochure</a>
+
+  <div class="cols">
+    <div class="info">
+      <p class="lede">Notre équipe commerciale vous accueille pour une présentation détaillée du projet, des plans et des appartements disponibles.</p>
+
+      <div class="phones">
+        <div class="label">Service commercial</div>
+        <a href="tel:+212666091909"><span>+212 6 66 09 19 09</span><span>→</span></a>
+        <a href="tel:+212666095708"><span>+212 6 66 09 57 08</span><span>→</span></a>
+        <a href="tel:+212521448187"><span>+212 5 21 44 81 87</span><span>→</span></a>
+      </div>
+
+      <div class="meta">
+        <div>
+          <div class="label muted">Adresse</div>
+          <div class="addr">N°6, Rue Capitaine ARRIGUI, Résidence ISIS<br>Appt. N°27 Guéliz — Marrakech, Maroc</div>
+        </div>
+        <div>
+          <div class="label muted">Email</div>
+          <a href="mailto:contact@mybayt.ma" class="email">contact@mybayt.ma</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-wrap">
+      <form action="https://api.web3forms.com/submit" method="POST" onsubmit="event.preventDefault(); var f=this; fetch(f.action,{method:'POST',body:new FormData(f),headers:{Accept:'application/json'}}).then(function(r){if(r.ok){f.style.display='none';f.nextElementSibling.style.display='flex';}});">
+        <input type="hidden" name="access_key" value="c49e329c-80f6-40e5-a823-97f598af4167">
+        <input type="hidden" name="subject" value="Nouveau message depuis le site MyBayt">
+        <input type="checkbox" name="botcheck" style="display: none;">
+        <div class="field"><label>Nom complet</label><input type="text" name="name" required></div>
+        <div class="field"><label>Adresse email</label><input type="email" name="email" required></div>
+        <div class="field"><label>Message</label><textarea name="message" required rows="4"></textarea></div>
+        <button type="submit">Envoyer le message</button>
+      </form>
+      <div class="sent" style="display:none;">
+        <div class="check">✓</div>
+        <p class="ttl">Message envoyé.</p>
+        <p class="sub">Notre équipe vous contactera dans les plus brefs délais.</p>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -539,6 +754,25 @@
     if (e.key === 'ArrowLeft') show(cur - 1);
     if (e.key === 'ArrowRight') show(cur + 1);
   });
+
+  // ── Animated gold rule under CTA title (matches main page contact section) ──
+  (function() {
+    const rule = document.querySelector('.cta .head .rule');
+    if (!rule) return;
+    function update() {
+      const r = rule.getBoundingClientRect();
+      const vh = window.innerHeight || document.documentElement.clientHeight;
+      // 0% when rule first enters the viewport bottom, 100% when it reaches mid-viewport.
+      const start = vh;          // rule top at viewport bottom
+      const end = vh * 0.5;      // rule top at viewport middle
+      const raw = (start - r.top) / (start - end);
+      const p = Math.max(0, Math.min(1, raw));
+      rule.style.setProperty('--gold-w', (p * 100).toFixed(2) + '%');
+    }
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+  })();
 </script>
 
 </body>

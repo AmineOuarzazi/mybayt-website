@@ -54,6 +54,244 @@
   ::-webkit-scrollbar { width: 4px; }
   ::-webkit-scrollbar-track { background: var(--bg); }
   ::-webkit-scrollbar-thumb { background: var(--gold-light); border-radius: 2px; }
+
+  /* Mobile menu hidden on desktop */
+  .m-burger, .m-drawer { display: none; }
+
+  /* ──────────────────────────────────────────────────────────────
+     MOBILE LAYER — only active ≤ 900px.
+     Overrides inline React styles via !important.
+     Desktop layout is untouched above this breakpoint.
+     ────────────────────────────────────────────────────────────── */
+  @media (max-width: 900px) {
+    .m-burger { display: flex; }
+    .m-drawer { display: flex; }
+    body { overflow-x: hidden; }
+
+    /* ── NAV: hide desktop link groups, show hamburger ── */
+    nav { padding: 0 20px !important; height: 60px !important; }
+    nav > div:first-child,
+    nav > div:last-child { display: none !important; }
+    nav > a img { height: 28px !important; }
+
+    /* Hamburger button (injected from JS) */
+    .m-burger {
+      position: fixed; top: 14px; right: 16px; z-index: 110;
+      width: 36px; height: 36px;
+      display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 5px;
+      background: transparent; border: none; cursor: pointer; padding: 0;
+    }
+    .m-burger span {
+      display: block; width: 22px; height: 1.5px;
+      background: var(--ink);
+      transition: transform 0.3s, opacity 0.3s, background 0.3s;
+    }
+    .m-burger.light span { background: white; box-shadow: 0 1px 2px rgba(0,0,0,0.4); }
+    .m-burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); background: var(--ink) !important; box-shadow: none !important; }
+    .m-burger.open span:nth-child(2) { opacity: 0; }
+    .m-burger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); background: var(--ink) !important; box-shadow: none !important; }
+
+    /* Mobile drawer */
+    .m-drawer {
+      position: fixed; inset: 0; z-index: 105;
+      background: rgba(250,247,243,0.98);
+      backdrop-filter: blur(20px);
+      display: flex; flex-direction: column;
+      padding: 80px 32px 32px;
+      transform: translateX(100%);
+      transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+      pointer-events: none;
+    }
+    .m-drawer.open { transform: translateX(0); pointer-events: auto; }
+    .m-drawer a {
+      font-family: var(--ff-display); font-weight: 300; font-size: 36px;
+      color: var(--ink); text-decoration: none;
+      padding: 18px 0; border-bottom: 1px solid var(--rule);
+      letter-spacing: -0.01em;
+    }
+    .m-drawer a.tel {
+      margin-top: auto;
+      font-family: var(--ff-body); font-size: 14px; letter-spacing: 0.12em;
+      text-transform: uppercase; color: white; background: var(--gold);
+      padding: 16px 24px; text-align: center; border-bottom: none;
+    }
+
+    /* ── HERO ── */
+    section:first-of-type { min-height: 100vh !important; }
+    section:first-of-type > div[style*="zIndex: 2"],
+    section:first-of-type > div:nth-child(3) {
+      padding: 0 24px 40px !important;
+    }
+    section:first-of-type > div:nth-child(3) > div {
+      flex-direction: column !important;
+      align-items: flex-start !important;
+      padding-top: 0 !important;
+      gap: 32px !important;
+    }
+    section:first-of-type h1 {
+      font-size: clamp(40px, 11vw, 56px) !important;
+      max-width: 100% !important;
+    }
+    section:first-of-type div[style*="alignItems: 'flex-end'"][style*="flexDirection: 'column'"] {
+      align-items: flex-start !important;
+      padding-bottom: 0 !important;
+    }
+
+    /* ── Rule label ── */
+    div[style*="margin: '0 64px'"] { margin: 0 24px !important; }
+
+    /* ── ABOUT — stack columns ── */
+    section[style*="gridTemplateColumns: '1fr 1fr'"] {
+      grid-template-columns: 1fr !important;
+      gap: 40px !important;
+      padding: 48px 24px !important;
+    }
+    /* About stat row — wrap, allow shrinking */
+    section[style*="gridTemplateColumns: '1fr 1fr'"] > div:last-child > div:last-child {
+      gap: 16px !important;
+      flex-wrap: wrap !important;
+    }
+
+    /* ── VALUES ── */
+    section[style*="background: 'var(--ink)'"][style*="padding: '72px 64px'"] {
+      padding: 56px 24px !important;
+    }
+    section[style*="background: 'var(--ink)'"][style*="padding: '72px 64px'"] > div:first-child {
+      flex-direction: column !important;
+      align-items: flex-start !important;
+      gap: 12px !important;
+    }
+    section[style*="background: 'var(--ink)'"][style*="padding: '72px 64px'"] > div:nth-child(2) {
+      grid-template-columns: 1fr !important;
+      gap: 0 !important;
+    }
+    section[style*="background: 'var(--ink)'"][style*="padding: '72px 64px'"] > div:nth-child(2) > div {
+      padding: 32px 24px !important;
+    }
+    /* Values detail — stack */
+    section[style*="background: 'var(--ink)'"][style*="padding: '72px 64px'"] > div:nth-child(3) > div {
+      grid-template-columns: 1fr !important;
+      gap: 32px !important;
+      padding: 40px 8px 16px !important;
+    }
+    section[style*="background: 'var(--ink)'"][style*="padding: '72px 64px'"] > div:nth-child(3) > div > div:last-child {
+      border-left: none !important;
+      border-top: 1px solid rgba(255,255,255,0.1) !important;
+      padding-left: 0 !important;
+      padding-top: 32px !important;
+    }
+
+    /* ── PROJECTS ── */
+    section#projets { padding: 56px 24px !important; }
+    section#projets > div:first-child {
+      flex-direction: column !important;
+      align-items: flex-start !important;
+      gap: 16px !important;
+    }
+
+    /* ── CTA Banner ── */
+    section[style*="background: 'var(--ink)'"][style*="padding: '72px 80px'"] {
+      margin: 0 24px 64px !important;
+      padding: 48px 28px !important;
+      grid-template-columns: 1fr !important;
+      gap: 32px !important;
+    }
+    section[style*="background: 'var(--ink)'"][style*="padding: '72px 80px'"] > div:last-child {
+      border-left: none !important;
+      border-top: 1px solid rgba(255,255,255,0.12) !important;
+      padding-left: 0 !important;
+      padding-top: 24px !important;
+    }
+    section[style*="background: 'var(--ink)'"][style*="padding: '72px 80px'"] a[href^="tel:"] {
+      font-size: 22px !important;
+    }
+
+    /* ── TESTIMONIALS ── */
+    section[style*="padding: '88px 64px 110px'"] {
+      padding: 56px 24px 72px !important;
+    }
+    section[style*="padding: '88px 64px 110px'"] > div:first-child {
+      flex-direction: column !important;
+      align-items: flex-start !important;
+      gap: 16px !important;
+      margin-bottom: 40px !important;
+      padding-bottom: 24px !important;
+    }
+    section[style*="padding: '88px 64px 110px'"] > div:nth-child(2) {
+      grid-template-columns: 1fr !important;
+      gap: 32px !important;
+      min-height: 0 !important;
+    }
+    section[style*="padding: '88px 64px 110px'"] > div:nth-child(2) > div:first-child {
+      height: 380px !important;
+    }
+    section[style*="padding: '88px 64px 110px'"] > div:nth-child(2) > div:last-child {
+      padding-left: 0 !important;
+      gap: 24px !important;
+    }
+    /* Card padding */
+    section[style*="padding: '88px 64px 110px'"] > div:nth-child(2) > div:first-child > div {
+      padding: 32px 28px 28px !important;
+    }
+    /* Smaller counter on mobile */
+    section[style*="padding: '88px 64px 110px'"] > div:nth-child(2) > div:last-child > div:first-child > span:first-child {
+      font-size: 48px !important;
+    }
+
+    /* ── CONTACT ── */
+    section#contact {
+      padding: 88px 24px 56px !important;
+    }
+    section#contact > div:nth-child(3),
+    section#contact > div:nth-child(4) {
+      grid-template-columns: 1fr !important;
+      gap: 48px !important;
+    }
+    section#contact > div[style*="gridTemplateColumns: '1fr 1fr'"] {
+      grid-template-columns: 1fr !important;
+      gap: 48px !important;
+    }
+    section#contact > div[style*="gridTemplateColumns: '1fr 1fr'"] > div:last-child {
+      border-left: none !important;
+      border-top: 1px solid rgba(255,255,255,0.1) !important;
+      padding-left: 0 !important;
+      padding-top: 40px !important;
+    }
+    section#contact a[href^="tel:"] {
+      font-size: 20px !important;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 48px 24px 32px !important;
+    }
+    footer > div:first-child {
+      grid-template-columns: 1fr !important;
+      gap: 36px !important;
+      margin-bottom: 40px !important;
+    }
+    footer > div:last-child {
+      flex-direction: column !important;
+      gap: 12px !important;
+      align-items: flex-start !important;
+    }
+
+    /* ── TWEAKS PANEL ── */
+    div[style*="position: 'fixed'"][style*="bottom: 24"] {
+      bottom: 16px !important;
+      right: 16px !important;
+      left: 16px !important;
+      width: auto !important;
+    }
+  }
+
+  @media (max-width: 480px) {
+    section:first-of-type h1 { font-size: 38px !important; }
+    .m-drawer a { font-size: 28px !important; padding: 14px 0 !important; }
+    section[style*="padding: '88px 64px 110px'"] > div:nth-child(2) > div:first-child > div {
+      padding: 28px 22px 24px !important;
+    }
+  }
 </style>
 </head>
 <body>
@@ -118,14 +356,45 @@ const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
 const remap = (v, inMin, inMax, outMin = 0, outMax = 1) =>
 clamp((v - inMin) / (inMax - inMin)) * (outMax - outMin) + outMin;
 
+/* ── Mobile drawer (hamburger) ── */
+function MobileMenu({ scrolled }) {
+  const [open, setOpen] = useState(false);
+  useEffect(() => {
+    document.body.style.overflow = open ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [open]);
+  return (
+    <>
+      <button
+        className={`m-burger ${open ? 'open' : ''} ${!scrolled && !open ? 'light' : ''}`}
+        onClick={() => setOpen(o => !o)}
+        aria-label="Menu"
+      >
+        <span></span><span></span><span></span>
+      </button>
+      <div className={`m-drawer ${open ? 'open' : ''}`}>
+        <a href="#" onClick={() => setOpen(false)}>Accueil</a>
+        <a href="Nos Projets.html">Nos Projets</a>
+        <a href="#contact" onClick={() => setOpen(false)}>Contact</a>
+        <a className="tel" href="tel:+212666091909">+212 6 66 09 19 09</a>
+      </div>
+    </>
+  );
+}
+
 /* ── Nav ── */
 function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 60);
+    const mq = window.matchMedia('(max-width: 900px)');
+    const onMq = () => setIsMobile(mq.matches);
+    onMq();
+    mq.addEventListener('change', onMq);
     window.addEventListener('scroll', fn);
-    return () => window.removeEventListener('scroll', fn);
+    return () => { window.removeEventListener('scroll', fn); mq.removeEventListener('change', onMq); };
   }, []);
   const navStyle = {
     position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
@@ -170,6 +439,7 @@ function Nav() {
           +212 6 66 09 19 09
         </a>
       </div>
+      <MobileMenu scrolled={scrolled} />
     </nav>);
 
 }
@@ -634,11 +904,24 @@ function Projects() {
   const [dragX, setDragX] = useState(0);
   const [dragging, setDragging] = useState(false);
   const [playing, setPlaying] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
   const startX = useRef(0);
   const trackRef = useRef(null);
-  const visible = 3;
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 900px)');
+    const onMq = () => setIsMobile(mq.matches);
+    onMq();
+    mq.addEventListener('change', onMq);
+    return () => mq.removeEventListener('change', onMq);
+  }, []);
+  const visible = isMobile ? 1 : 3;
   const max = projects.length - visible;
   const ref = useReveal();
+
+  // Clamp offset when visible count changes (mobile/desktop)
+  useEffect(() => {
+    setOffset((o) => Math.min(o, max));
+  }, [max]);
 
   // Auto-advance
   useEffect(() => {
@@ -1326,7 +1609,15 @@ function Contact() {
   const [sent, setSent] = useState(false);
   const [sectionRef, progress] = useScrollProgress();
   const handle = (k, v) => setForm((f) => ({ ...f, [k]: v }));
-  const submit = (e) => {e.preventDefault();setSent(true);};
+  const submit = (e) => {
+    e.preventDefault();
+    const f = e.currentTarget;
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      body: new FormData(f),
+      headers: { Accept: 'application/json' }
+    }).then((r) => { if (r.ok) setSent(true); });
+  };
   const inputStyle = {
     width: '100%', fontFamily: 'var(--ff-body)', fontSize: 14, fontWeight: 300,
     background: 'transparent', border: 'none', borderBottom: '1px solid rgba(255,255,255,0.15)',
@@ -1467,11 +1758,14 @@ function Contact() {
               </button>
             </div> :
 
-          <form onSubmit={submit} style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
-              {[{ k: 'nom', label: 'Nom complet', type: 'text' }, { k: 'email', label: 'Adresse email', type: 'email' }].map((f) =>
+          <form action="https://api.web3forms.com/submit" method="POST" onSubmit={submit} style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
+              <input type="hidden" name="access_key" value="c49e329c-80f6-40e5-a823-97f598af4167" />
+              <input type="hidden" name="subject" value="Nouveau message depuis le site MyBayt" />
+              <input type="checkbox" name="botcheck" style={{ display: 'none' }} />
+              {[{ k: 'nom', name: 'name', label: 'Nom complet', type: 'text' }, { k: 'email', name: 'email', label: 'Adresse email', type: 'email' }].map((f) =>
             <div key={f.k}>
                   <label style={{ fontFamily: 'var(--ff-body)', fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)', display: 'block', marginBottom: 4 }}>{f.label}</label>
-                  <input type={f.type} value={form[f.k]} required
+                  <input type={f.type} name={f.name} value={form[f.k]} required
               onChange={(e) => handle(f.k, e.target.value)}
               style={inputStyle}
               onFocus={(e) => e.target.style.borderBottomColor = 'var(--gold-light)'}
@@ -1480,7 +1774,7 @@ function Contact() {
             )}
               <div>
                 <label style={{ fontFamily: 'var(--ff-body)', fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)', display: 'block', marginBottom: 4 }}>Message</label>
-                <textarea value={form.message} required rows={4}
+                <textarea name="message" value={form.message} required rows={4}
               onChange={(e) => handle('message', e.target.value)}
               style={{ ...inputStyle, resize: 'none' }}
               onFocus={(e) => e.target.style.borderBottomColor = 'var(--gold-light)'}
@@ -1517,8 +1811,8 @@ function Footer() {
         </div>
         <div>
           <div style={{ fontFamily: 'var(--ff-body)', fontSize: 11, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--gold-light)', marginBottom: 24 }}>Navigation</div>
-          {['Accueil', 'Nos Projets', 'Contact'].map((l) =>
-          <a key={l} href="#" style={{ display: 'block', fontFamily: 'var(--ff-body)', fontSize: 14, color: 'rgba(255,255,255,0.55)', textDecoration: 'none', marginBottom: 12, transition: 'color 0.2s' }}
+          {[['Accueil', '#'], ['Nos Projets', 'Nos Projets.html'], ['Contact', '#contact']].map(([l, href]) =>
+          <a key={l} href={href} style={{ display: 'block', fontFamily: 'var(--ff-body)', fontSize: 14, color: 'rgba(255,255,255,0.55)', textDecoration: 'none', marginBottom: 12, transition: 'color 0.2s' }}
           onMouseEnter={(e) => e.currentTarget.style.color = 'white'}
           onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255,255,255,0.55)'}>{l}</a>
           )}
