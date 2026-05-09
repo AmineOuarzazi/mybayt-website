@@ -269,41 +269,15 @@
 
   /* responsive */
   @media (max-width: 900px) {
-    .nav { padding: 0 16px; height: 60px; }
-    .nav a.back { font-size: 11px; }
-    .nav img.logo { height: 26px; }
-    .nav .ph {
-      font-size: 0; padding: 0; border: none;
-      width: 36px; height: 36px; border-radius: 50%;
-      background: var(--gold); position: relative;
-    }
-    .nav .ph::before {
-      content: '☎'; font-size: 16px; color: white;
-      position: absolute; inset: 0; display: flex;
-      align-items: center; justify-content: center;
-    }
-    .header { padding: 96px 24px 40px; }
-    .header .util { margin-bottom: 32px; padding-bottom: 16px; flex-direction: column; align-items: flex-start; gap: 8px; }
-    .header .util .meta { font-size: 10px; }
-    .header .row { grid-template-columns: 1fr; gap: 24px; align-items: start; }
-    .header h1 { font-size: clamp(48px, 14vw, 72px) !important; }
-    .header .lede { font-size: 16px; padding-left: 18px; max-width: 100%; }
-    .strip { padding: 16px 24px; flex-direction: column; align-items: flex-start; gap: 14px; top: 60px; }
-    .filters { gap: 6px; overflow-x: auto; flex-wrap: nowrap; width: 100%; padding-bottom: 4px; }
-    .filter { white-space: nowrap; padding: 8px 14px; font-size: 10px; flex-shrink: 0; }
+    .nav { padding: 0 20px; }
+    .header { padding: 124px 24px 48px; }
+    .header .row { grid-template-columns: 1fr; gap: 32px; align-items: start; }
+    .strip { padding: 20px 24px; flex-direction: column; align-items: flex-start; }
     .grid-wrap { padding: 40px 24px; }
     .grid { grid-template-columns: 1fr; gap: 48px; }
-    .card .name { font-size: 26px; }
-    .card .specs { gap: 0 20px; grid-template-columns: repeat(3, 1fr); }
-    .card .specs > div .val { font-size: 15px; white-space: normal; }
-    .cta { grid-template-columns: 1fr; gap: 36px; padding: 56px 24px; }
-    .cta .right { border-left: none; padding-left: 0; border-top: 1px solid rgba(255,255,255,0.12); padding-top: 28px; }
-    .cta .right a.tel { font-size: 22px; }
-    footer { padding: 20px 24px; flex-direction: column; gap: 8px; align-items: flex-start; }
-  }
-  @media (max-width: 480px) {
-    .header h1 { font-size: 56px !important; }
-    .card .specs { grid-template-columns: 1fr 1fr; gap: 12px 20px; }
+    .cta { grid-template-columns: 1fr; gap: 48px; padding: 64px 24px; }
+    .cta .right { border-left: none; padding-left: 0; border-top: 1px solid rgba(255,255,255,0.12); padding-top: 32px; }
+    footer { padding: 24px; flex-direction: column; gap: 8px; }
   }
 </style>
 </head>
