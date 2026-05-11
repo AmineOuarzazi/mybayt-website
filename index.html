@@ -228,7 +228,7 @@ function Nav() {
       <>
         <nav style={navStyle}>
           <a href="#" style={{ display: 'flex', alignItems: 'center' }}>
-            <img src="https://www.mybayt.ma/wp-content/uploads/2023/02/MyBayt-Logo.png"
+            <img src="assets/mybayt-logo.png"
               alt="MyBayt" style={{ height: scrolled ? 24 : 28, objectFit: 'contain', transition: 'height 0.5s' }} />
           </a>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -259,7 +259,7 @@ function Nav() {
         })}
       </div>
       <a href="#" style={{ display: 'flex', alignItems: 'center' }}>
-        <img src="https://www.mybayt.ma/wp-content/uploads/2023/02/MyBayt-Logo.png"
+        <img src="assets/mybayt-logo.png"
           alt="MyBayt" style={{ height: scrolled ? 32 : 40, objectFit: 'contain', transition: 'height 0.5s' }} />
       </a>
       <div style={{ display: 'flex', gap: sideGap, alignItems: 'center' }}>
@@ -300,7 +300,7 @@ function MobileMenu({ open, onClose }) {
         padding: '0 20px', height: 60,
         borderBottom: '1px solid var(--rule)'
       }}>
-        <img src="https://www.mybayt.ma/wp-content/uploads/2023/02/MyBayt-Logo.png"
+        <img src="assets/mybayt-logo.png"
           alt="MyBayt" style={{ height: 28, objectFit: 'contain' }} />
         <button onClick={onClose} aria-label="Fermer le menu"
           style={{
@@ -1049,21 +1049,22 @@ function Projects() {
             </div>
           </div>
 
-          <button onClick={() => setPlaying(p => !p)} style={{
+          <button onClick={() => setPlaying(p => !p)} className="mb-play-btn" style={{
             width: 44, height: 44, borderRadius: '50%',
             background: 'var(--bg-warm)', border: '1px solid var(--rule)',
             cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
-            transition: 'all 0.2s', flexShrink: 0
+            transition: 'background 0.2s, border-color 0.2s', flexShrink: 0,
+            color: 'var(--ink)'
           }}
-            onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--ink)'; e.currentTarget.style.borderColor = 'var(--ink)'; }}
-            onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--bg-warm)'; e.currentTarget.style.borderColor = 'var(--rule)'; }}>
+            onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--gold)'; e.currentTarget.style.borderColor = 'var(--gold)'; e.currentTarget.style.color = '#fff'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--bg-warm)'; e.currentTarget.style.borderColor = 'var(--rule)'; e.currentTarget.style.color = 'var(--ink)'; }}>
             {playing ?
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                <rect x="1.5" y="1" width="3" height="10" rx="1" fill="var(--ink)" />
-                <rect x="7.5" y="1" width="3" height="10" rx="1" fill="var(--ink)" />
+                <rect x="1.5" y="1" width="3" height="10" rx="1" fill="currentColor" />
+                <rect x="7.5" y="1" width="3" height="10" rx="1" fill="currentColor" />
               </svg> :
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                <path d="M2 1.5l9 4.5-9 4.5V1.5z" fill="var(--ink)" />
+                <path d="M2 1.5l9 4.5-9 4.5V1.5z" fill="currentColor" />
               </svg>
             }
           </button>
@@ -1763,7 +1764,7 @@ function Footer() {
     <footer style={{ background: 'var(--ink)', color: 'white', padding: `${padTop}px ${padX}px ${padBottom}px` }}>
       <div style={{ display: 'grid', gridTemplateColumns: gridCols, gap: gridGap, marginBottom: bp === 'mobile' ? 40 : 64 }}>
         <div>
-          <img src="https://www.mybayt.ma/wp-content/uploads/2023/02/MyBayt-Logo.png" alt="MyBayt" style={{ height: 36, objectFit: 'contain', filter: 'brightness(0) invert(1)', marginBottom: 24 }} />
+          <img src="assets/mybayt-logo.png" alt="MyBayt" style={{ height: 36, objectFit: 'contain', filter: 'brightness(0) invert(1)', marginBottom: 24 }} />
           <p style={{ fontFamily: 'var(--ff-body)', fontSize: 13, lineHeight: 1.85, color: 'rgba(255,255,255,0.45)', maxWidth: 280 }}>
             Promoteur de clarté et de transparence — projets résidentiels d'exception à Marrakech.
           </p>
