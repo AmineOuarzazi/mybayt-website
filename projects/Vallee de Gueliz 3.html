@@ -420,8 +420,15 @@
     .specs { grid-template-columns: 1fr 1fr; }
     .specs > div { padding: 24px 20px; }
 
-    .band { height: auto; min-height: 56vh; }
-    .band .caption { left: 24px; right: 24px; bottom: 28px; font-size: 21px; }
+    .band { height: auto; min-height: 0; overflow: visible; }
+    .band img { height: auto; }
+    .band::after { display: none; }
+    .band .caption {
+      position: static; left: auto; right: auto; bottom: auto; z-index: auto;
+      background: var(--ink); padding: 32px 24px 36px;
+      font-size: 22px; max-width: none; text-shadow: none;
+    }
+    .band .caption .small { color: var(--gold-light); margin-bottom: 14px; text-shadow: none; opacity: 1; }
 
     .intro, .location, .gallery, .features, .typo, .cta { padding-left: 24px !important; padding-right: 24px !important; }
     .intro p, .intro .pull, .location p { max-width: none; }
