@@ -7,7 +7,7 @@
 <meta name="description" content="Résidence Eden de Guéliz — appartements du studio au duplex avec piscine rooftop, au cœur de Guéliz, Marrakech. Par MyBayt.">
 <meta property="og:title" content="Résidence Eden de Guéliz — MyBayt">
 <meta property="og:description" content="Résidence Eden de Guéliz — appartements du studio au duplex avec piscine rooftop, au cœur de Guéliz, Marrakech. Par MyBayt.">
-<link rel="icon" type="image/png" href="../assets/mybayt-logo.png">
+<link rel="icon" type="image/png" href="../assets/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -551,6 +551,46 @@
   @media (max-width: 900px) {
     .next-proj .np-inner { grid-template-columns: 1fr; gap: 32px; padding: 48px 28px; }
   }
+
+  /* ── Mobile refinements (≤600px) ── */
+  @media (max-width: 600px) {
+    .nav { padding: 0 16px; height: 60px; gap: 10px; }
+    .nav img.logo { height: 24px; }
+    .nav a.back { font-size: 0; }
+    .nav a.back::before { content: "\2190"; font-size: 20px; }
+    .nav .ph { font-size: 0; padding: 9px 16px; }
+    .nav .ph::before { content: "Appeler"; font-size: 11px; letter-spacing: 0.1em; }
+
+    .hero { min-height: 86vh; }
+    .hero-inner { flex-direction: column; align-items: flex-start; gap: 22px; padding: 0 24px 48px; }
+    .hero .col-r { text-align: left; padding-bottom: 0; }
+
+    .specs { grid-template-columns: 1fr 1fr; }
+    .specs > div { padding: 24px 20px; }
+
+    .band { height: auto; min-height: 56vh; }
+    .band .caption { left: 24px; right: 24px; bottom: 28px; font-size: 21px; }
+
+    .intro, .location, .gallery, .features, .typo, .cta { padding-left: 24px !important; padding-right: 24px !important; }
+    .intro p, .intro .pull, .location p { max-width: none; }
+
+    .life.single > div { padding: 64px 24px !important; min-height: 58vh; }
+    .life.single > div h3 { font-size: 32px !important; }
+    .life.single > div p { font-size: 15px !important; }
+
+    .typo-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .typo table { min-width: 560px; }
+
+    .cta .info .phones a { font-size: 21px; }
+
+    .lightbox { padding: 16px; }
+    .lightbox .nav-btn { width: 44px; height: 44px; }
+    .lightbox .nav-btn.prev { left: 8px; }
+    .lightbox .nav-btn.next { right: 8px; }
+    .lightbox .close { top: 12px; right: 12px; }
+
+    footer { flex-direction: column; gap: 8px; padding: 24px; }
+  }
 </style>
 </head>
 <body>
@@ -711,6 +751,7 @@
     <div class="eyebrow">Typologies disponibles</div>
     <h2 class="section-title">Du studio au <em>duplex</em></h2>
   </div>
+  <div class="typo-scroll">
   <table>
     <thead>
       <tr>
@@ -759,6 +800,7 @@
       </tr>
     </tbody>
   </table>
+  </div>
 </section>
 
 <!-- ─────────────────────────── CTA ─────────────────────────── -->

@@ -7,7 +7,7 @@
 <meta name="description" content="La Vallée de Guéliz 4 — le nouveau projet résidentiel MyBayt à Guéliz, Marrakech. Lancement en cours.">
 <meta property="og:title" content="Vallée de Guéliz 4 — MyBayt">
 <meta property="og:description" content="La Vallée de Guéliz 4 — le nouveau projet résidentiel MyBayt à Guéliz, Marrakech. Lancement en cours.">
-<link rel="icon" type="image/png" href="../assets/mybayt-logo.png">
+<link rel="icon" type="image/png" href="../assets/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -382,6 +382,39 @@
   @media (max-width: 900px) {
     .next-proj .np-inner { grid-template-columns: 1fr; gap: 32px; padding: 48px 28px; }
   }
+
+  /* ── Mobile refinements (≤600px) ── */
+  @media (max-width: 600px) {
+    .nav { padding: 0 16px; height: 60px; gap: 10px; }
+    .nav img.logo { height: 24px; }
+    .nav a.back { font-size: 0; }
+    .nav a.back::before { content: "\2190"; font-size: 20px; }
+    .nav .ph { font-size: 0; padding: 9px 16px; }
+    .nav .ph::before { content: "Appeler"; font-size: 11px; letter-spacing: 0.1em; }
+
+    .hero .left { padding: 40px 24px 48px; }
+    .hero .left .top { padding-top: 8px; }
+    .hero h1 { font-size: 46px; }
+    .hero .meta-row { gap: 14px; margin-top: 36px; padding-top: 24px; }
+    .hero .meta-row .val { font-size: 17px; }
+    .hero .meta-row .val .price-small { font-size: 11px; }
+    .hero .right { min-height: 54vh; }
+    .hero .right .badge { right: 20px; bottom: 20px; font-size: 16px; max-width: 220px; padding: 14px 18px; }
+
+    .specs { grid-template-columns: 1fr 1fr; }
+    .specs > div { padding: 24px 20px; }
+
+    .diptych figure figcaption { left: 20px; right: 20px; bottom: 20px; }
+
+    .intro, .location, .features, .typo, .cta { padding-left: 24px !important; padding-right: 24px !important; }
+    .intro p, .intro .pull, .location p { max-width: none; }
+
+    .typo-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .typo table { min-width: 560px; }
+
+    .cta .info .phones a { font-size: 21px; }
+    footer { flex-direction: column; gap: 8px; padding: 24px; }
+  }
 </style>
 </head>
 <body>
@@ -497,6 +530,7 @@
     <div class="eyebrow">Composition de la résidence</div>
     <h2 class="section-title">Une <em>typologie</em> exceptionnelle</h2>
   </div>
+  <div class="typo-scroll">
   <table>
     <thead>
       <tr>
@@ -545,6 +579,7 @@
       </tr>
     </tbody>
   </table>
+  </div>
 </section>
 
 <!-- ─────────────────────────── CTA ─────────────────────────── -->

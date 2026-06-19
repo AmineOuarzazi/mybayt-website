@@ -7,7 +7,7 @@
 <meta name="description" content="Cinq résidences d'exception MyBayt au cœur de Guéliz, Marrakech — du studio livré au duplex sur plan.">
 <meta property="og:title" content="Nos Projets — MyBayt">
 <meta property="og:description" content="Cinq résidences d'exception au cœur de Guéliz, Marrakech.">
-<link rel="icon" type="image/png" href="assets/mybayt-logo.png">
+<link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -288,6 +288,28 @@
     .cta { grid-template-columns: 1fr; gap: 48px; padding: 64px 24px; }
     .cta .right { border-left: none; padding-left: 0; border-top: 1px solid rgba(255,255,255,0.12); padding-top: 32px; }
     footer { padding: 24px; flex-direction: column; gap: 8px; }
+  }
+
+  /* ── Mobile refinements (≤600px) ── */
+  @media (max-width: 600px) {
+    .nav { padding: 0 16px; height: 60px; gap: 10px; }
+    .nav img.logo { height: 24px; }
+    .nav a.back { font-size: 0; }
+    .nav a.back::before { content: "\2190"; font-size: 20px; }
+    .nav .ph { font-size: 0; padding: 9px 16px; }
+    .nav .ph::before { content: "Appeler"; font-size: 11px; letter-spacing: 0.1em; }
+
+    .header { padding: 100px 24px 40px; }
+    .header h1 { font-size: clamp(48px, 14vw, 64px); }
+    .strip { top: 60px; padding: 16px 24px; gap: 14px; }
+    .filters { gap: 6px; }
+    .filter { padding: 8px 12px; }
+    .grid-wrap { padding: 40px 24px; }
+    .grid { gap: 40px; }
+    .card .name { font-size: 26px; }
+    .card .specs { gap: 0 14px; }
+    .card .specs > div .val { font-size: 15px; }
+    .cta { padding: 64px 24px; }
   }
 </style>
 </head>
