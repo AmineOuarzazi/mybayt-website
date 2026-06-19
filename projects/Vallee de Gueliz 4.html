@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vallée de Guéliz 4 — MyBayt</title>
+<meta name="description" content="La Vallée de Guéliz 4 — le nouveau projet résidentiel MyBayt à Guéliz, Marrakech. Lancement en cours.">
+<meta property="og:title" content="Vallée de Guéliz 4 — MyBayt">
+<meta property="og:description" content="La Vallée de Guéliz 4 — le nouveau projet résidentiel MyBayt à Guéliz, Marrakech. Lancement en cours.">
+<link rel="icon" type="image/png" href="../assets/mybayt-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: oklch(97.2% 0.009 62);
+    --bg-warm: oklch(95% 0.014 62);
+    --ink: oklch(13% 0.012 55);
+    --ink-mid: oklch(42% 0.01 55);
+    --ink-light: oklch(68% 0.008 55);
+    --gold: oklch(60% 0.11 60);
+    --gold-light: oklch(82% 0.06 60);
+    --rule: oklch(88% 0.014 60);
+    --ff-display: 'Cormorant Garamond', Georgia, serif;
+    --ff-body: 'DM Sans', system-ui, sans-serif;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--ink);
+    font-family: var(--ff-body); font-weight: 300;
+    -webkit-font-smoothing: antialiased; overflow-x: hidden;
+  }
+  ::selection { background: var(--gold-light); }
+  @supports not selector(::-webkit-scrollbar) {
+    html { scrollbar-width: thin; scrollbar-color: var(--gold-light) var(--bg); }
+  }
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--gold-light); border-radius: 2px; }
+  a { color: inherit; }
+  img { max-width: 100%; display: block; }
+
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 52px; height: 72px;
+    background: rgba(250,247,243,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .nav a.back {
+    font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ink-mid); text-decoration: none; transition: color 0.2s;
+  }
+  .nav a.back:hover { color: var(--gold); }
+  .nav img.logo { height: 32px; }
+  .nav .ph { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); text-decoration: none; border: 1px solid var(--gold); padding: 8px 18px; transition: all 0.2s; }
+  .nav .ph:hover { background: var(--gold); color: white; }
+
+  /* Side-by-side hero — portrait image on the right */
+  .hero {
+    padding-top: 72px;
+    display: grid; grid-template-columns: 1.05fr 1fr;
+    min-height: 100vh; background: var(--bg-warm);
+    position: relative;
+  }
+  .hero .left {
+    padding: 80px 64px 64px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    position: relative;
+  }
+  .hero .left .top { padding-top: 24px; }
+  .hero .tag {
+    display: inline-block; background: var(--ink); color: var(--gold-light);
+    font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 7px 16px; margin-bottom: 32px; font-weight: 500;
+  }
+  .hero .num {
+    font-family: var(--ff-display); font-style: italic; font-weight: 300;
+    font-size: 16px; color: var(--gold); letter-spacing: 0.04em;
+    margin-bottom: 8px;
+  }
+  .hero h1 {
+    font-family: var(--ff-display); font-weight: 300;
+    font-size: clamp(56px, 7vw, 112px); line-height: 0.96;
+    color: var(--ink); letter-spacing: -0.015em;
+  }
+  .hero h1 em { font-style: italic; color: var(--gold); display: block; }
+  .hero .sub {
+    font-family: var(--ff-display); font-style: italic; font-weight: 300;
+    font-size: clamp(20px, 1.7vw, 26px); color: var(--ink-mid);
+    margin-top: 28px; max-width: 560px; line-height: 1.45;
+  }
+  .hero .meta-row {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    border-top: 1px solid var(--rule);
+    margin-top: 56px; padding-top: 32px; gap: 32px;
+  }
+  .hero .meta-row .lbl { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+  .hero .meta-row .val { font-family: var(--ff-display); font-weight: 400; font-size: 22px; color: var(--ink); line-height: 1.25; }
+  .hero .meta-row .val .price-small { font-family: var(--ff-body); font-size: 12px; font-weight: 400; color: var(--ink-light); display: block; margin-top: 4px; }
+
+  .hero .right {
+    position: relative; overflow: hidden;
+    background-image: url('../uploads/vg4-corner.jpg');
+    background-size: cover; background-position: center;
+  }
+  .hero .right::after {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 80px;
+    background: linear-gradient(to right, var(--bg-warm), transparent);
+    pointer-events: none;
+  }
+  .hero .right .badge {
+    position: absolute; right: 32px; bottom: 32px;
+    background: rgba(13,10,8,0.78); backdrop-filter: blur(8px);
+    color: white; padding: 16px 22px;
+    font-family: var(--ff-display); font-style: italic; font-weight: 400;
+    font-size: 18px; max-width: 280px; line-height: 1.35;
+    border-left: 2px solid var(--gold);
+  }
+  .hero .right .badge .small {
+    display: block; font-family: var(--ff-body); font-style: normal;
+    font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--gold-light); margin-bottom: 8px; font-weight: 500;
+  }
+
+  .specs {
+    display: grid; grid-template-columns: repeat(5, 1fr);
+    border-bottom: 1px solid var(--rule);
+    background: var(--bg);
+  }
+  .specs > div { padding: 36px 32px; border-right: 1px solid var(--rule); }
+  .specs > div:last-child { border-right: none; }
+  .specs .label { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+  .specs .val { font-family: var(--ff-display); font-weight: 400; font-size: 22px; color: var(--ink); line-height: 1.3; }
+
+  .eyebrow { font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); margin-bottom: 18px; }
+  h2.section-title {
+    font-family: var(--ff-display); font-weight: 300;
+    font-size: clamp(32px, 4vw, 56px); line-height: 1.08; letter-spacing: -0.01em;
+    margin-bottom: 28px;
+  }
+  h2.section-title em { font-style: italic; color: var(--gold); }
+
+  .intro {
+    padding: 120px 64px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 96px; align-items: start;
+  }
+  .intro p { font-size: 15px; line-height: 1.85; color: var(--ink-mid); margin-bottom: 18px; max-width: 480px; }
+  .intro .pull {
+    font-family: var(--ff-display); font-style: italic; font-weight: 300;
+    font-size: 28px; line-height: 1.4; color: var(--ink);
+    border-left: 2px solid var(--gold); padding-left: 28px; margin-top: 32px; max-width: 460px;
+  }
+
+  /* Day → Dusk diptych */
+  .diptych {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--rule);
+    border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+  }
+  .diptych figure {
+    position: relative; height: 64vh; overflow: hidden;
+  }
+  .diptych figure img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+  }
+  .diptych figure figcaption {
+    position: absolute; left: 28px; bottom: 24px;
+    color: white;
+    font-family: var(--ff-display); font-style: italic; font-weight: 400;
+    font-size: 22px; line-height: 1.3;
+    text-shadow: 0 2px 18px rgba(0,0,0,0.85), 0 1px 4px rgba(0,0,0,0.7);
+    z-index: 2;
+  }
+  .diptych figure figcaption .small {
+    display: block; font-family: var(--ff-body); font-style: normal; font-weight: 500;
+    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--gold-light); margin-bottom: 8px;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.85);
+  }
+  .diptych figure::after {
+    content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 50%;
+    background: linear-gradient(to top, rgba(8,6,4,0.85) 0%, rgba(8,6,4,0) 100%);
+    pointer-events: none;
+  }
+
+  .location {
+    padding: 120px 64px; background: var(--bg-warm);
+    display: grid; grid-template-columns: 1fr 1.1fr; gap: 80px; align-items: center;
+  }
+  .location .map {
+    aspect-ratio: 4 / 5;
+    background: linear-gradient(135deg, oklch(92% 0.02 60), oklch(86% 0.03 60));
+    position: relative; overflow: hidden; border: 1px solid var(--rule);
+  }
+  .location .map svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .location .map .pin {
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+  }
+  .location .map .pin .dot {
+    width: 16px; height: 16px; border-radius: 50%; background: var(--gold);
+    box-shadow: 0 0 0 6px rgba(159,108,57,0.18), 0 0 0 14px rgba(159,108,57,0.08);
+  }
+  .location .map .pin .lbl {
+    background: white; padding: 8px 14px; font-size: 11px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--ink); border: 1px solid var(--rule);
+    white-space: nowrap;
+  }
+  .location ul.poi { list-style: none; margin-top: 32px; border-top: 1px solid var(--rule); }
+  .location ul.poi li {
+    display: grid; grid-template-columns: 80px 1fr auto; gap: 24px; align-items: baseline;
+    padding: 18px 0; border-bottom: 1px solid var(--rule);
+  }
+  .location ul.poi .dist { font-family: var(--ff-display); font-size: 22px; color: var(--gold); font-weight: 400; }
+  .location ul.poi .name { font-size: 14px; color: var(--ink); font-weight: 400; }
+  .location ul.poi .meta { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-light); }
+
+  .features { padding: 120px 64px; background: var(--ink); color: white; }
+  .features .head { margin-bottom: 64px; max-width: 720px; }
+  .features .head .eyebrow { color: var(--gold-light); }
+  .features .head h2 {
+    font-family: var(--ff-display); font-weight: 300;
+    font-size: clamp(32px, 4vw, 56px); line-height: 1.08; color: white;
+  }
+  .features .head h2 em { font-style: italic; color: var(--gold-light); }
+  .features .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(255,255,255,0.08); }
+  .features .item { background: var(--ink); padding: 40px 32px; display: flex; flex-direction: column; gap: 16px; }
+  .features .item .num { font-family: var(--ff-display); font-size: 13px; color: var(--gold); letter-spacing: 0.1em; }
+  .features .item h4 { font-family: var(--ff-display); font-weight: 400; font-size: 24px; color: white; line-height: 1.2; }
+  .features .item p { font-size: 13px; line-height: 1.75; color: rgba(255,255,255,0.55); }
+
+  .typo { padding: 120px 64px; background: var(--bg); }
+  .typo .head { max-width: 720px; margin-bottom: 56px; }
+  .typo table { width: 100%; border-collapse: collapse; }
+  .typo th, .typo td { text-align: left; padding: 22px 8px; border-bottom: 1px solid var(--rule); }
+  .typo thead th { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-light); font-weight: 500; padding-bottom: 18px; }
+  .typo tbody td { font-family: var(--ff-display); font-weight: 400; font-size: 22px; color: var(--ink); }
+  .typo tbody td:first-child { color: var(--gold); }
+  .typo tbody td.range { font-family: var(--ff-body); font-weight: 400; font-size: 14px; color: var(--ink-mid); }
+
+  /* ── CTA / Contact ── */
+  .cta {
+    background: var(--ink); color: white;
+    padding: 120px 64px 96px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    position: relative;
+  }
+  .cta .head { margin-bottom: 64px; }
+  .cta .head .eyebrow,
+  .cta .head h3 { max-width: 720px; }
+  .cta .head .eyebrow { color: var(--gold-light); }
+  .cta .head h3 {
+    font-family: var(--ff-display); font-weight: 300;
+    font-size: clamp(28px, 3vw, 42px); line-height: 1.15; color: white; margin: 0;
+  }
+  .cta .head h3 em { font-style: italic; color: var(--gold-light); }
+  .cta .head .rule {
+    margin-top: 28px; height: 1px; width: 100%;
+    background: rgba(255,255,255,0.06); position: relative;
+    --gold-w: 0%;
+  }
+  .cta .head .rule::after {
+    content: ""; position: absolute; inset: 0 auto 0 0;
+    width: var(--gold-w); background: var(--gold);
+    transition: width 0.05s linear;
+  }
+  .cta .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+  .cta .info { display: flex; flex-direction: column; gap: 48px; }
+  .cta .info .lede {
+    font-family: var(--ff-body); font-size: 14px; line-height: 1.85;
+    color: rgba(255,255,255,0.45); max-width: 380px; margin: 0;
+  }
+  .cta .info .label {
+    font-family: var(--ff-body); font-size: 11px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--gold-light); margin-bottom: 16px;
+  }
+  .cta .info .label.muted { color: rgba(255,255,255,0.3); letter-spacing: 0.12em; margin-bottom: 8px; }
+  .cta .info .phones a {
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: var(--ff-display); font-weight: 300; font-size: 26px;
+    color: white; text-decoration: none; letter-spacing: 0.02em;
+    padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.08);
+    transition: color 0.2s;
+  }
+  .cta .info .phones a:hover { color: var(--gold-light); }
+  .cta .info .phones a span:last-child { font-size: 14px; opacity: 0.35; }
+  .cta .info .meta { display: flex; flex-direction: column; gap: 20px; }
+  .cta .info .meta .addr {
+    font-family: var(--ff-body); font-size: 14px; line-height: 1.7; color: rgba(255,255,255,0.5);
+  }
+  .cta .info .meta a.email {
+    font-family: var(--ff-body); font-size: 14px;
+    color: var(--gold-light); text-decoration: none; transition: opacity 0.2s;
+  }
+  .cta .info .meta a.email:hover { opacity: 0.7; }
+  .cta .form-wrap { border-left: 1px solid rgba(255,255,255,0.1); padding-left: 80px; }
+  .cta form { display: flex; flex-direction: column; gap: 32px; }
+  .cta form .field label {
+    font-family: var(--ff-body); font-size: 11px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: rgba(255,255,255,0.35);
+    display: block; margin-bottom: 4px;
+  }
+  .cta form .field input,
+  .cta form .field textarea {
+    width: 100%; background: transparent; border: none;
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+    color: white; font-family: var(--ff-body); font-size: 15px;
+    padding: 10px 0 12px; outline: none; transition: border-color 0.25s;
+  }
+  .cta form .field input:focus,
+  .cta form .field textarea:focus { border-bottom-color: var(--gold-light); }
+  .cta form .field textarea { resize: none; min-height: 96px; }
+  .cta form button[type="submit"] {
+    align-self: flex-start; font-family: var(--ff-body);
+    font-size: 12px; font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase;
+    background: var(--gold); color: white; border: none;
+    padding: 16px 40px; cursor: pointer; transition: background 0.2s;
+  }
+  .cta form button[type="submit"]:hover { background: oklch(52% 0.11 60); }
+  .cta .sent { display: flex; flex-direction: column; gap: 14px; padding-top: 8px; }
+  .cta .sent .check { font-family: var(--ff-display); font-size: 48px; color: var(--gold-light); line-height: 1; }
+  .cta .sent .ttl { font-family: var(--ff-display); font-size: 28px; font-weight: 300; color: white; margin: 0; }
+  .cta .sent .sub { font-family: var(--ff-body); font-size: 14px; color: rgba(255,255,255,0.45); margin: 0; }
+
+  footer {
+    background: var(--ink); color: rgba(255,255,255,0.45);
+    padding: 28px 64px; display: flex; justify-content: space-between;
+    font-size: 12px; border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.85s cubic-bezier(0.16,1,0.3,1), transform 0.85s cubic-bezier(0.16,1,0.3,1); }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  @media (max-width: 1000px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero .right { min-height: 70vh; }
+    .hero .right::after { display: none; }
+    .intro, .location { grid-template-columns: 1fr !important; gap: 56px !important; padding: 80px 28px; }
+    .cta { padding: 80px 28px; }
+    .cta .cols { grid-template-columns: 1fr !important; gap: 56px; }
+    .cta .form-wrap { border-left: none; padding-left: 0; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 40px; }
+    .specs { grid-template-columns: repeat(2, 1fr); }
+    .features .grid { grid-template-columns: 1fr; }
+    .diptych { grid-template-columns: 1fr; }
+    .nav { padding: 0 20px; }
+    .hero .left, .features, .typo, footer { padding-left: 28px; padding-right: 28px; }
+  }
+
+  /* ── Next project band ── */
+  .next-proj { display: block; text-decoration: none; background: var(--ink); overflow: hidden; position: relative; }
+  .next-proj .np-inner {
+    display: grid; grid-template-columns: 1fr 380px; align-items: center;
+    gap: 48px; padding: 64px;
+  }
+  .next-proj .np-eyebrow {
+    font-family: var(--ff-body); font-size: 11px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--gold-light); margin-bottom: 18px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .next-proj .np-eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--gold-light); }
+  .next-proj .np-name {
+    font-family: var(--ff-display); font-weight: 300;
+    font-size: clamp(34px, 4.5vw, 64px); line-height: 1.05; color: white;
+    letter-spacing: -0.01em; transition: color 0.3s;
+  }
+  .next-proj .np-name .np-arrow {
+    display: inline-block; color: var(--gold); margin-left: 16px;
+    transition: transform 0.45s cubic-bezier(0.16,1,0.3,1);
+  }
+  .next-proj:hover .np-name { color: var(--gold-light); }
+  .next-proj:hover .np-name .np-arrow { transform: translateX(12px); }
+  .next-proj .np-img {
+    aspect-ratio: 16/10; overflow: hidden; position: relative;
+  }
+  .next-proj .np-img img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    filter: brightness(0.85);
+    transition: transform 0.8s cubic-bezier(0.16,1,0.3,1), filter 0.4s;
+  }
+  .next-proj:hover .np-img img { transform: scale(1.05); filter: brightness(1); }
+  @media (max-width: 900px) {
+    .next-proj .np-inner { grid-template-columns: 1fr; gap: 32px; padding: 48px 28px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="../Nos Projets.html" class="back">← Tous les projets</a>
+  <a href="../index.html"><img src="../assets/mybayt-logo.png" alt="MyBayt" class="logo"></a>
+  <a href="tel:+212666091909" class="ph">+212 6 66 09 19 09</a>
+</nav>
+
+<section class="hero">
+  <div class="left">
+    <div class="top">
+      <span class="tag">Signature · Livraison 2026</span>
+      <div class="num">N° 04 · La Vallée</div>
+      <h1>Vallée de<em>Guéliz 4</em></h1>
+      <p class="sub">Une architecture sculpturale, des balcons en lignes courbes — un nouveau chapitre contemporain de la collection Vallée de Guéliz.</p>
+    </div>
+    <div class="meta-row">
+      <div>
+        <div class="lbl">Prix</div>
+        <div class="val">Sur demande</div>
+      </div>
+      <div>
+        <div class="lbl">Configuration</div>
+        <div class="val">8 ch. · 4 sdb<span class="price-small">≈ 480 m² total</span></div>
+      </div>
+      <div>
+        <div class="lbl">Livraison</div>
+        <div class="val">2026<span class="price-small">Signature MyBayt</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="right">
+    <div class="badge">
+      <span class="small">Signature MyBayt</span>
+      Architecture sculpturale, balcons en lignes courbes, terrasses privatives.
+    </div>
+  </div>
+</section>
+
+<section class="specs">
+  <div><div class="label">Localisation</div><div class="val">Guéliz<br>Marrakech</div></div>
+  <div><div class="label">Typologie</div><div class="val">Studios · Appart.<br>& Duplex</div></div>
+  <div><div class="label">Configuration</div><div class="val">8 ch. · 4 sdb<br>≈ 480 m²</div></div>
+  <div><div class="label">Livraison</div><div class="val">2026</div></div>
+  <div><div class="label">Statut</div><div class="val">Pré-commercialisation<br>Vente sur plan</div></div>
+</section>
+
+<section class="intro">
+  <div>
+    <div class="eyebrow">Le projet</div>
+    <h2 class="section-title">Un nouveau geste <em>sculptural</em> de la Vallée</h2>
+  </div>
+  <div>
+    <p>Quatrième opus de la collection Vallée de Guéliz, cette résidence pousse l'écriture architecturale vers une expression plus libre — des balcons en lignes courbes, une volumétrie sculptée, des terrasses privatives généreuses et une lecture continue du blanc cassé au sable doré.</p>
+    <p>Pensée pour les acquéreurs les plus exigeants, la résidence propose huit chambres, quatre salles de bain et près de 480 m² par appartement signature, avec des prestations sur mesure et une attention extrême portée aux détails de finition.</p>
+    <div class="pull">« La signature MyBayt, portée vers une expression plus sculpturale. »</div>
+  </div>
+</section>
+
+<div class="diptych">
+  <figure>
+    <img loading="lazy" src="../uploads/vg4-day.jpg" alt="Vallée de Guéliz 4 — vue de jour">
+    <figcaption><span class="small">Façade · vue de jour</span>Architecture sculpturale, balcons courbes, lumière franche.</figcaption>
+  </figure>
+  <figure>
+    <img loading="lazy" src="../uploads/vg4-dusk.jpg" alt="Vallée de Guéliz 4 — vue au crépuscule">
+    <figcaption><span class="small">Façade · vue au crépuscule</span>Une silhouette qui s'illumine, des terrasses qui prolongent le séjour.</figcaption>
+  </figure>
+</div>
+
+<section class="location">
+  <div class="map">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3440.8393928497203!2d-8.023864999999999!3d31.644454!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMzHCsDM4JzQwLjAiTiA4wrAwMScyNS45Ilc!5e1!3m2!1sen!2str!4v1779898648611!5m2!1sen!2str" style="position:absolute;inset:0;width:100%;height:100%;border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+  </div>
+  <div>
+    <div class="eyebrow">Au cœur de Guéliz</div>
+    <h2 class="section-title">Une adresse <em>signature</em></h2>
+    <p style="font-size:15px; line-height:1.85; color:var(--ink-mid); max-width:480px;">
+      Implantée dans le périmètre des Vallées 1, 2 et 3, la résidence prolonge la signature MyBayt sur l'un des îlots les plus recherchés de Guéliz — à quelques pas du Lycée Victor Hugo, de l'Institut français et des artères commerçantes du quartier.
+    </p>
+    <ul class="poi">
+      <li><span class="dist">2 min</span><span class="name">Lycée français Victor Hugo</span><span class="meta">À pied</span></li>
+      <li><span class="dist">5 min</span><span class="name">Gare ferroviaire de Marrakech</span><span class="meta">Voiture</span></li>
+      <li><span class="dist">7 min</span><span class="name">Centre commercial Carré Eden</span><span class="meta">Voiture</span></li>
+      <li><span class="dist">12 min</span><span class="name">Médina · Place Jemaa el-Fna</span><span class="meta">Voiture</span></li>
+      <li><span class="dist">15 min</span><span class="name">Aéroport Marrakech-Ménara</span><span class="meta">Voiture</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="features">
+  <div class="head">
+    <div class="eyebrow">Prestations Signature</div>
+    <h2>Une exigence <em>sans compromis</em></h2>
+  </div>
+  <div class="grid">
+    <div class="item"><span class="num">01</span><h4>Architecture sculpturale</h4><p>Volumétrie sculptée, balcons en lignes courbes, expression contemporaine et atemporelle.</p></div>
+    <div class="item"><span class="num">02</span><h4>Terrasses privatives</h4><p>Chaque appartement signature dispose d'une terrasse généreuse, prolongement naturel des espaces de vie.</p></div>
+    <div class="item"><span class="num">03</span><h4>Marbre signature</h4><p>Marbre premier choix sélectionné en carrière, finition mate ou polie selon les espaces.</p></div>
+    <div class="item"><span class="num">04</span><h4>Climatisation centralisée</h4><p>Système de climatisation centralisé inclus, pilotage par zones et programmation.</p></div>
+    <div class="item"><span class="num">05</span><h4>Menuiseries sur mesure</h4><p>Portes intérieures, dressings et habillages en essences nobles, conçus à la demande.</p></div>
+    <div class="item"><span class="num">06</span><h4>Aluminium thermo-laqué</h4><p>Menuiseries extérieures grand format, à rupture de pont thermique, vitrage performant.</p></div>
+    <div class="item"><span class="num">07</span><h4>Lobby & conciergerie</h4><p>Hall d'entrée signature, conciergerie en journée, gardiennage permanent.</p></div>
+    <div class="item"><span class="num">08</span><h4>Vidéophonie & sécurité</h4><p>Vidéosurveillance multi-zones, vidéophonie couleur, contrôle d'accès aux étages.</p></div>
+    <div class="item"><span class="num">09</span><h4>Garage privatif</h4><p>Places de parking dédiées en sous-sol, accès direct aux ascenseurs privatifs.</p></div>
+  </div>
+</section>
+
+<section class="typo">
+  <div class="head">
+    <div class="eyebrow">Composition de la résidence</div>
+    <h2 class="section-title">Une <em>typologie</em> exceptionnelle</h2>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:22%;">Élément</th>
+        <th style="width:34%;">Description</th>
+        <th style="width:22%;">Surface</th>
+        <th style="width:22%; text-align:right;">Statut</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Studios</td>
+        <td>Pièce de vie lumineuse, kitchenette équipée, salle d'eau</td>
+        <td class="range">Surfaces optimisées</td>
+        <td style="text-align:right;" class="range">Pré-commercialisation</td>
+      </tr>
+      <tr>
+        <td>Appartements</td>
+        <td>Séjour traversant, chambres lumineuses, terrasses privatives</td>
+        <td class="range">Surfaces variées</td>
+        <td style="text-align:right;" class="range">Pré-commercialisation</td>
+      </tr>
+      <tr>
+        <td>Duplex</td>
+        <td>Double niveau, double séjour, espaces de vie généreux</td>
+        <td class="range">Grands volumes</td>
+        <td style="text-align:right;" class="range">Pré-commercialisation</td>
+      </tr>
+      <tr>
+        <td>Lobby</td>
+        <td>Hall d'entrée signature, conciergerie en journée</td>
+        <td class="range">Rez-de-chaussée</td>
+        <td style="text-align:right;" class="range">Inclus</td>
+      </tr>
+      <tr>
+        <td>Parking</td>
+        <td>Garage privatif sécurisé, places dédiées</td>
+        <td class="range">Sous-sol</td>
+        <td style="text-align:right;" class="range">Inclus</td>
+      </tr>
+      <tr>
+        <td>Toiture</td>
+        <td>Toiture-terrasse paysagée, espaces communs</td>
+        <td class="range">Toiture-terrasse</td>
+        <td style="text-align:right;" class="range">Commun</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ─────────────────────────── CTA ─────────────────────────── -->
+
+<section class="cta">
+  <div class="head">
+    <div class="eyebrow">Prendre rendez-vous</div>
+    <h3>Découvrez Vallée de <em>Guéliz 4</em></h3>
+    <div class="rule"></div>
+  </div>
+
+  <div class="cols">
+    <div class="info">
+      <p class="lede">Notre équipe commerciale vous accueille pour une présentation détaillée du projet, des plans, des prestations signature et des appartements en pré-commercialisation.</p>
+
+      <div class="phones">
+        <div class="label">Service commercial</div>
+        <a href="tel:+212666091909"><span>+212 6 66 09 19 09</span><span>→</span></a>
+        <a href="tel:+212666095708"><span>+212 6 66 09 57 08</span><span>→</span></a>
+        <a href="tel:+212521448187"><span>+212 5 21 44 81 87</span><span>→</span></a>
+      </div>
+
+      <div class="meta">
+        <div>
+          <div class="label muted">Adresse</div>
+          <div class="addr">N°6, Rue Capitaine ARRIGUI, Résidence ISIS<br>Appt. N°27 Guéliz — Marrakech, Maroc</div>
+        </div>
+        <div>
+          <div class="label muted">Email</div>
+          <a href="mailto:contact@mybayt.ma" class="email">contact@mybayt.ma</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-wrap">
+      <form action="https://api.web3forms.com/submit" method="POST" onsubmit="event.preventDefault(); var f=this; fetch(f.action,{method:'POST',body:new FormData(f),headers:{Accept:'application/json'}}).then(function(r){if(r.ok){f.style.display='none';f.nextElementSibling.style.display='flex';}});">
+        <input type="hidden" name="access_key" value="c49e329c-80f6-40e5-a823-97f598af4167">
+        <input type="hidden" name="subject" value="Nouveau message depuis le site MyBayt">
+        <input type="checkbox" name="botcheck" style="display: none;">
+        <div class="field"><label>Nom complet</label><input type="text" name="name" required></div>
+        <div class="field"><label>Adresse email</label><input type="email" name="email" required></div>
+        <div class="field"><label>Message</label><textarea name="message" required rows="4"></textarea></div>
+        <button type="submit">Envoyer le message</button>
+      </form>
+      <div class="sent" style="display:none;">
+        <div class="check">✓</div>
+        <p class="ttl">Message envoyé.</p>
+        <p class="sub">Notre équipe vous contactera dans les plus brefs délais.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────── NEXT PROJECT ─────────────────────────── -->
+<a class="next-proj" href="Vallee de Gueliz 3.html">
+  <div class="np-inner">
+    <div>
+      <div class="np-eyebrow">Projet suivant</div>
+      <div class="np-name">Vallée de Guéliz 3<span class="np-arrow">→</span></div>
+    </div>
+    <div class="np-img"><img loading="lazy" src="../uploads/Vallee de gueliz 3.jpg" alt="Vallée de Guéliz 3"></div>
+  </div>
+</a>
+
+<footer>
+  <span>© 2026 MyBayt.ma — Vallée de Guéliz 4</span>
+  <span>N°6, Rue Capitaine ARRIGUI · Guéliz, Marrakech</span>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.specs, .intro, .diptych, .location, .features, .typo, .cta').forEach(el => {
+    el.classList.add('reveal'); obs.observe(el);
+  });
+
+  // ── Animated gold rule under CTA title (matches main page contact section) ──
+  (function() {
+    const rule = document.querySelector('.cta .head .rule');
+    if (!rule) return;
+    function update() {
+      const r = rule.getBoundingClientRect();
+      const vh = window.innerHeight || document.documentElement.clientHeight;
+      // 0% when rule first enters the viewport bottom, 100% when it reaches mid-viewport.
+      const start = vh;          // rule top at viewport bottom
+      const end = vh * 0.5;      // rule top at viewport middle
+      const raw = (start - r.top) / (start - end);
+      const p = Math.max(0, Math.min(1, raw));
+      rule.style.setProperty('--gold-w', (p * 100).toFixed(2) + '%');
+    }
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+  })();
+</script>
+
+</body>
+</html>

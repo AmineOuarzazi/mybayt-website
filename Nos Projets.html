@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nos Projets — MyBayt</title>
+<meta name="description" content="Cinq résidences d'exception MyBayt au cœur de Guéliz, Marrakech — du studio livré au duplex sur plan.">
+<meta property="og:title" content="Nos Projets — MyBayt">
+<meta property="og:description" content="Cinq résidences d'exception au cœur de Guéliz, Marrakech.">
+<link rel="icon" type="image/png" href="assets/mybayt-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: oklch(97.2% 0.009 62);
+    --bg-warm: oklch(95% 0.014 62);
+    --ink: oklch(13% 0.012 55);
+    --ink-mid: oklch(42% 0.01 55);
+    --ink-light: oklch(68% 0.008 55);
+    --gold: oklch(60% 0.11 60);
+    --gold-light: oklch(82% 0.06 60);
+    --rule: oklch(88% 0.014 60);
+    --ff-display: 'Cormorant Garamond', Georgia, serif;
+    --ff-body: 'DM Sans', system-ui, sans-serif;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--ink);
+    font-family: var(--ff-body); font-weight: 300;
+    -webkit-font-smoothing: antialiased; overflow-x: hidden;
+  }
+  ::selection { background: var(--gold-light); }
+  @supports not selector(::-webkit-scrollbar) {
+    html { scrollbar-width: thin; scrollbar-color: var(--gold-light) var(--bg); }
+  }
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--gold-light); border-radius: 2px; }
+  a { color: inherit; }
+  img { max-width: 100%; display: block; }
+
+  /* ── Nav (matches project pages) ── */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 52px; height: 72px;
+    background: rgba(250,247,243,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .nav a.back {
+    font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ink-mid); text-decoration: none; transition: color 0.2s;
+  }
+  .nav a.back:hover { color: var(--gold); }
+  .nav img.logo { height: 32px; }
+  .nav .ph { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); text-decoration: none; border: 1px solid var(--gold); padding: 8px 18px; transition: all 0.2s; }
+  .nav .ph:hover { background: var(--gold); color: white; }
+
+  /* ── Header / Hero ── */
+  .header {
+    padding: 128px 64px 80px;
+    border-bottom: 1px solid var(--rule);
+    background: var(--bg);
+  }
+  .header .util {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 22px; margin-bottom: 72px;
+    border-bottom: 1px solid var(--rule);
+    font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--ink-light);
+  }
+  .header .util .crumbs a { color: var(--ink-mid); text-decoration: none; transition: color 0.2s; }
+  .header .util .crumbs a:hover { color: var(--gold); }
+  .header .util .crumbs span.sep { margin: 0 14px; color: var(--ink-light); opacity: 0.6; }
+  .header .util .crumbs span.here { color: var(--ink); }
+  .header .util .meta { color: var(--gold); }
+
+  .header .row {
+    display: grid; grid-template-columns: 1.4fr 1fr; gap: 96px; align-items: end;
+  }
+  .header h1 {
+    font-family: var(--ff-display); font-weight: 300;
+    font-size: clamp(56px, 8vw, 132px); line-height: 0.95;
+    letter-spacing: -0.02em; color: var(--ink);
+  }
+  .header h1 em { font-style: italic; color: var(--gold); display: inline-block; }
+  .header h1 .num {
+    display: block;
+    font-family: var(--ff-body); font-weight: 400;
+    font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink-light); margin-bottom: 28px;
+  }
+  .header h1 .num b { color: var(--ink); font-weight: 500; }
+
+  .header .lede {
+    font-family: var(--ff-display); font-style: italic; font-weight: 300;
+    font-size: clamp(20px, 1.7vw, 26px); line-height: 1.45;
+    color: var(--ink-mid); max-width: 420px;
+    border-left: 1px solid var(--gold); padding-left: 24px;
+    padding-bottom: 12px;
+  }
+
+  /* ── Filter / count strip ── */
+  .strip {
+    padding: 28px 64px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 32px; border-bottom: 1px solid var(--rule);
+    background: var(--bg-warm); position: sticky; top: 72px; z-index: 50;
+    backdrop-filter: blur(8px);
+  }
+  .filters {
+    display: flex; gap: 8px; flex-wrap: wrap;
+  }
+  .filter {
+    border: 1px solid var(--rule); background: transparent;
+    padding: 9px 18px; font-family: var(--ff-body); font-size: 11px;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mid);
+    cursor: pointer; transition: all 0.2s;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .filter .count {
+    font-variant-numeric: tabular-nums; opacity: 0.5; font-size: 10px;
+  }
+  .filter:hover { color: var(--ink); border-color: var(--ink-mid); }
+  .filter.active {
+    background: var(--ink); color: white; border-color: var(--ink);
+  }
+  .filter.active .count { opacity: 0.55; color: white; }
+
+  .count-display {
+    font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--ink-light); white-space: nowrap;
+  }
+  .count-display strong {
+    font-family: var(--ff-display); font-weight: 400; font-size: 20px;
+    color: var(--ink); letter-spacing: 0; margin-right: 6px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ── Grid ── */
+  .grid-wrap {
+    padding: 64px;
+    background: var(--bg);
+  }
+  .grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 48px 32px;
+  }
+
+  .card {
+    text-decoration: none; color: inherit; display: block;
+    transition: opacity 0.5s cubic-bezier(0.16,1,0.3,1), transform 0.5s cubic-bezier(0.16,1,0.3,1), filter 0.4s;
+  }
+  .card.hidden { display: none; }
+  .card .imgwrap {
+    position: relative; aspect-ratio: 4/3; overflow: hidden; background: var(--bg-warm);
+  }
+  .card .imgwrap img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.9s cubic-bezier(0.16,1,0.3,1);
+  }
+  .card:hover .imgwrap img { transform: scale(1.04); }
+
+  .card .tag {
+    position: absolute; top: 22px; left: 22px;
+    font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    background: var(--gold); color: white; padding: 7px 14px; font-weight: 500;
+  }
+  .card .tag.delivered { background: var(--ink); }
+  .card .tag.available { background: oklch(45% 0.06 150); }
+  .card .index {
+    position: absolute; top: 22px; right: 22px;
+    font-family: var(--ff-display); font-size: 13px; letter-spacing: 0.1em;
+    color: white; opacity: 0.85;
+    text-shadow: 0 1px 8px rgba(0,0,0,0.5);
+  }
+
+  .card .meta {
+    padding: 26px 4px 0;
+  }
+  .card .name {
+    font-family: var(--ff-display); font-weight: 400;
+    font-size: 32px; line-height: 1.15; color: var(--ink);
+    margin-bottom: 10px; letter-spacing: -0.005em;
+    transition: color 0.25s;
+  }
+  .card:hover .name { color: var(--gold); }
+  .card .loc {
+    font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink-light); margin-bottom: 22px;
+  }
+
+  .card .specs {
+    display: grid; grid-template-columns: repeat(3, auto);
+    gap: 0 36px; padding-top: 18px;
+    border-top: 1px solid var(--rule);
+  }
+  .card .specs > div .lbl {
+    font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--ink-light); margin-bottom: 6px;
+  }
+  .card .specs > div .val {
+    font-family: var(--ff-display); font-weight: 400; font-size: 18px;
+    color: var(--ink); white-space: nowrap;
+  }
+  .card .specs > div .val.gold { color: var(--gold); }
+
+  .card .arrow {
+    margin-top: 22px;
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink); padding-bottom: 4px;
+    border-bottom: 1px solid var(--ink); transition: all 0.25s;
+  }
+  .card:hover .arrow { color: var(--gold); border-color: var(--gold); }
+  .card .arrow span.a { transition: transform 0.3s; display: inline-block; }
+  .card:hover .arrow span.a { transform: translateX(6px); }
+
+  /* ── empty state ── */
+  .empty {
+    grid-column: 1 / -1;
+    padding: 96px 0;
+    text-align: center;
+  }
+  .empty p.t {
+    font-family: var(--ff-display); font-style: italic; font-weight: 300;
+    font-size: 28px; color: var(--ink-mid);
+  }
+
+  /* ── CTA ── */
+  .cta {
+    background: var(--ink); color: white;
+    padding: 96px 64px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .cta .eyebrow {
+    font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--gold-light); margin-bottom: 20px;
+  }
+  .cta h3 {
+    font-family: var(--ff-display); font-weight: 300;
+    font-size: clamp(28px, 3vw, 44px); line-height: 1.15;
+  }
+  .cta h3 em { font-style: italic; color: var(--gold-light); }
+  .cta p {
+    font-size: 14px; line-height: 1.85; color: rgba(255,255,255,0.55);
+    max-width: 420px; margin-top: 18px;
+  }
+  .cta .right {
+    display: flex; flex-direction: column; gap: 0;
+    border-left: 1px solid rgba(255,255,255,0.12); padding-left: 64px;
+  }
+  .cta .right a.tel {
+    font-family: var(--ff-display); font-weight: 300; font-size: 28px;
+    color: white; text-decoration: none; padding: 14px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    display: flex; justify-content: space-between; align-items: center;
+    transition: color 0.2s;
+  }
+  .cta .right a.tel:hover { color: var(--gold-light); }
+  .cta .right a.email {
+    margin-top: 18px; font-size: 13px; letter-spacing: 0.06em;
+    color: var(--gold-light); text-decoration: none;
+  }
+
+  /* ── Footer ── */
+  footer {
+    background: var(--ink); color: rgba(255,255,255,0.45);
+    padding: 28px 64px;
+    display: flex; justify-content: space-between; font-size: 12px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  /* ── Reveal ── */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1); }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* responsive */
+  @media (max-width: 900px) {
+    .nav { padding: 0 20px; }
+    .header { padding: 124px 24px 48px; }
+    .header .row { grid-template-columns: 1fr; gap: 32px; align-items: start; }
+    .strip { padding: 20px 24px; flex-direction: column; align-items: flex-start; }
+    .grid-wrap { padding: 40px 24px; }
+    .grid { grid-template-columns: 1fr; gap: 48px; }
+    .cta { grid-template-columns: 1fr; gap: 48px; padding: 64px 24px; }
+    .cta .right { border-left: none; padding-left: 0; border-top: 1px solid rgba(255,255,255,0.12); padding-top: 32px; }
+    footer { padding: 24px; flex-direction: column; gap: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="back">← Retour à l'accueil</a>
+  <a href="index.html"><img src="assets/mybayt-logo.png" alt="MyBayt" class="logo"></a>
+  <a href="tel:+212666091909" class="ph">+212 6 66 09 19 09</a>
+</nav>
+
+<!-- ─────────────────────── Header ─────────────────────── -->
+<section class="header">
+  <div class="row">
+    <h1>Nos <em>projets</em></h1>
+    <p class="lede">
+      Cinq résidences d'exception au cœur de Marrakech, du studio livré au duplex sur plan — chacune pensée pour un art de vivre durable.
+    </p>
+  </div>
+</section>
+
+<!-- ─────────────────────── Filter strip ─────────────────────── -->
+<div class="strip">
+  <div class="filters" id="filters">
+    <button class="filter active" data-filter="all">Tous <span class="count">5</span></button>
+    <button class="filter" data-filter="encours">En cours <span class="count">2</span></button>
+    <button class="filter" data-filter="nouveau">Nouveau <span class="count">1</span></button>
+    <button class="filter" data-filter="disponible">Disponible <span class="count">4</span></button>
+    <button class="filter" data-filter="livre">Livré <span class="count">3</span></button>
+  </div>
+  <div class="count-display"><strong id="visibleCount">5</strong>Projets affichés</div>
+</div>
+
+<!-- ─────────────────────── Grid ─────────────────────── -->
+<section class="grid-wrap">
+  <div class="grid" id="grid">
+
+    <!-- Eden de Guéliz -->
+    <a href="projects/Eden Gueliz.html" class="card reveal" data-status="encours disponible">
+      <div class="imgwrap">
+        <img src="uploads/Eden de gueliz.jpg" alt="Résidence Eden de Guéliz">
+        <span class="tag">En cours</span>
+        <span class="index">01 / 05</span>
+      </div>
+      <div class="meta">
+        <div class="name">Résidence Eden de Guéliz</div>
+        <div class="loc">Guéliz · Marrakech</div>
+        <div class="specs">
+          <div><div class="lbl">Typologie</div><div class="val">Studios → Duplex</div></div>
+          <div><div class="lbl">Surfaces</div><div class="val">46 → 134 m²</div></div>
+          <div><div class="lbl">Prix</div><div class="val gold">Sur demande</div></div>
+        </div>
+        <span class="arrow">Découvrir le projet <span class="a">→</span></span>
+      </div>
+    </a>
+
+    <!-- Vallée de Guéliz 4 -->
+    <a href="projects/Vallee de Gueliz 4.html" class="card reveal" data-status="nouveau encours disponible">
+      <div class="imgwrap">
+        <img src="uploads/Valle de gueliz 4.jpeg" alt="La Vallée de Guéliz 4">
+        <span class="tag">Nouveau</span>
+        <span class="index">02 / 05</span>
+      </div>
+      <div class="meta">
+        <div class="name">La Vallée de Guéliz 4</div>
+        <div class="loc">Guéliz · Marrakech</div>
+        <div class="specs">
+          <div><div class="lbl">Typologie</div><div class="val">Appartements</div></div>
+          <div><div class="lbl">Statut</div><div class="val">Lancement</div></div>
+          <div><div class="lbl">Livraison</div><div class="val gold">À venir</div></div>
+        </div>
+        <span class="arrow">Découvrir le projet <span class="a">→</span></span>
+      </div>
+    </a>
+
+    <!-- Vallée de Guéliz 3 -->
+    <a href="projects/Vallee de Gueliz 3.html" class="card reveal" data-status="disponible livre">
+      <div class="imgwrap">
+        <img src="uploads/Vallee de gueliz 3.jpg" alt="Vallée de Guéliz 3">
+        <span class="tag available">Disponible</span>
+        <span class="index">03 / 05</span>
+      </div>
+      <div class="meta">
+        <div class="name">Vallée de Guéliz 3</div>
+        <div class="loc">Guéliz · Marrakech</div>
+        <div class="specs">
+          <div><div class="lbl">Composition</div><div class="val">6 ch · 2 sdb</div></div>
+          <div><div class="lbl">Surface</div><div class="val">200 m²</div></div>
+          <div><div class="lbl">Prix</div><div class="val gold">Sur demande</div></div>
+        </div>
+        <span class="arrow">Découvrir le projet <span class="a">→</span></span>
+      </div>
+    </a>
+
+    <!-- Vallée de Guéliz 2 -->
+    <a href="projects/Vallee de Gueliz 2.html" class="card reveal" data-status="disponible livre">
+      <div class="imgwrap">
+        <img src="uploads/Vallee de gueliz 2.jpg" alt="Vallée de Guéliz 2">
+        <span class="tag available">Disponible</span>
+        <span class="index">04 / 05</span>
+      </div>
+      <div class="meta">
+        <div class="name">Vallée de Guéliz 2</div>
+        <div class="loc">Guéliz · Marrakech</div>
+        <div class="specs">
+          <div><div class="lbl">Composition</div><div class="val">9 ch · 3 sdb</div></div>
+          <div><div class="lbl">Surface</div><div class="val">600 m²</div></div>
+          <div><div class="lbl">Prix</div><div class="val gold">Sur demande</div></div>
+        </div>
+        <span class="arrow">Découvrir le projet <span class="a">→</span></span>
+      </div>
+    </a>
+
+    <!-- Vallée de Guéliz 1 -->
+    <a href="projects/Vallee de Gueliz 1.html" class="card reveal" data-status="livre">
+      <div class="imgwrap">
+        <img src="uploads/Vallee de gueliz 1-11982a43.jpg" alt="Vallée de Guéliz 1">
+        <span class="tag delivered">Livré</span>
+        <span class="index">05 / 05</span>
+      </div>
+      <div class="meta">
+        <div class="name">Vallée de Guéliz 1</div>
+        <div class="loc">Guéliz · Marrakech</div>
+        <div class="specs">
+          <div><div class="lbl">Composition</div><div class="val">10 ch · 2 sdb</div></div>
+          <div><div class="lbl">Surface</div><div class="val">500 m²</div></div>
+          <div><div class="lbl">Prix</div><div class="val gold">Sur demande</div></div>
+        </div>
+        <span class="arrow">Découvrir le projet <span class="a">→</span></span>
+      </div>
+    </a>
+
+    <div class="empty" id="empty" style="display:none;">
+      <p class="t">Aucun projet ne correspond à ce filtre.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────── CTA ─────────────────────── -->
+<section class="cta">
+  <div>
+    <div class="eyebrow">Service commercial</div>
+    <h3>Un projet en tête ? Parlons-en <em>ensemble</em>.</h3>
+    <p>Notre équipe vous accompagne du premier rendez-vous à la remise des clés, en toute transparence.</p>
+  </div>
+  <div class="right">
+    <a href="tel:+212666091909" class="tel"><span>+212 6 66 09 19 09</span><span style="font-size:14px; opacity:0.4;">→</span></a>
+    <a href="tel:+212666095708" class="tel"><span>+212 6 66 09 57 08</span><span style="font-size:14px; opacity:0.4;">→</span></a>
+    <a href="tel:+212521448187" class="tel"><span>+212 5 21 44 81 87</span><span style="font-size:14px; opacity:0.4;">→</span></a>
+    <a href="mailto:contact@mybayt.ma" class="email">contact@mybayt.ma</a>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 MyBayt.ma — Promoteur immobilier de prestige à Marrakech</span>
+  <span>N°6, Rue Capitaine ARRIGUI · Guéliz, Marrakech</span>
+</footer>
+
+<script>
+  // Reveal on scroll
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  // Filter
+  const cards = Array.from(document.querySelectorAll('.card'));
+  const filters = document.querySelectorAll('.filter');
+  const visibleCount = document.getElementById('visibleCount');
+  const empty = document.getElementById('empty');
+
+  filters.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filters.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const f = btn.dataset.filter;
+      let n = 0;
+      cards.forEach(c => {
+        const statuses = (c.dataset.status || '').split(/\s+/);
+        const match = (f === 'all' || statuses.includes(f));
+        c.classList.toggle('hidden', !match);
+        if (match) n++;
+      });
+      visibleCount.textContent = n;
+      empty.style.display = n === 0 ? 'block' : 'none';
+    });
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1902 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MyBayt — Promoteur d'Exception à Marrakech</title>
+<meta name="description" content="MyBayt conçoit des résidences d'exception à Guéliz, Marrakech. Être bien chez soi, c'est vivre au lieu d'exister.">
+<meta property="og:title" content="MyBayt — Promoteur d'Exception à Marrakech">
+<meta property="og:description" content="Résidences de prestige à Guéliz, Marrakech — du studio au duplex.">
+<meta property="og:image" content="uploads/IMG-20250113-WA0004-656fde64.jpg">
+<meta name="theme-color" content="#faf7f3">
+<link rel="icon" type="image/png" href="assets/mybayt-logo.png">
+<link rel="preload" as="image" href="uploads/IMG-20250113-WA0004-656fde64.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: oklch(97.2% 0.009 62);
+    --bg-warm: oklch(95% 0.014 62);
+    --ink: oklch(13% 0.012 55);
+    --ink-mid: oklch(42% 0.01 55);
+    --ink-light: oklch(68% 0.008 55);
+    --gold: oklch(60% 0.11 60);
+    --gold-light: oklch(82% 0.06 60);
+    --rule: oklch(88% 0.014 60);
+    --ff-display: 'Cormorant Garamond', Georgia, serif;
+    --ff-body: 'DM Sans', system-ui, sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+  html, body { max-width: 100%; overflow-x: hidden; }
+  img, video, iframe { max-width: 100%; height: auto; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--ff-body);
+    font-weight: 300;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  ::selection { background: var(--gold-light); }
+
+  /* Fade-in animation */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.85s cubic-bezier(0.16,1,0.3,1), transform 0.85s cubic-bezier(0.16,1,0.3,1);
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--gold-light); border-radius: 2px; }
+
+  /* Native horizontal-scroll slider on mobile (Projects) */
+  .mb-hscroll {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .mb-hscroll::-webkit-scrollbar { display: none; }
+  .mb-hscroll > a, .mb-hscroll > * { scroll-snap-align: start; }
+
+  /* Mobile nav overlay — locks body scroll while open */
+  body.menu-open { overflow: hidden; }
+
+  /* Hero entrance + slow settle on the background image */
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes mbFadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to { opacity: 1; transform: none; }
+    }
+    @keyframes mbSettle {
+      from { transform: scale(1.07); }
+      to { transform: scale(1); }
+    }
+    .hero-kb { animation: mbSettle 3.2s cubic-bezier(0.16,1,0.3,1) both; }
+    .hero-enter-1 { animation: mbFadeUp 0.9s cubic-bezier(0.16,1,0.3,1) 0.2s backwards; }
+    .hero-enter-2 { animation: mbFadeUp 1.05s cubic-bezier(0.16,1,0.3,1) 0.4s backwards; }
+    .hero-enter-3 { animation: mbFadeUp 1.05s cubic-bezier(0.16,1,0.3,1) 0.65s backwards; }
+  }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useEffect, useRef } = React;
+
+/* ── Breakpoint hook ──
+   Synchronous initial read, then matchMedia listeners — no flash on first paint. */
+function getBreakpoint() {
+  if (typeof window === 'undefined') return 'desktop';
+  const w = window.innerWidth;
+  if (w < 640) return 'mobile';
+  if (w < 1024) return 'tablet';
+  return 'desktop';
+}
+function useBreakpoint() {
+  const [bp, setBp] = useState(getBreakpoint);
+  useEffect(() => {
+    const mqMobile = window.matchMedia('(max-width: 639.98px)');
+    const mqTablet = window.matchMedia('(min-width: 640px) and (max-width: 1023.98px)');
+    const update = () => setBp(getBreakpoint());
+    mqMobile.addEventListener('change', update);
+    mqTablet.addEventListener('change', update);
+    return () => {
+      mqMobile.removeEventListener('change', update);
+      mqTablet.removeEventListener('change', update);
+    };
+  }, []);
+  return bp;
+}
+
+/* ── Intersection Observer hook ── */
+function useReveal() {
+  const ref = useRef(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) { el.classList.add('visible'); obs.disconnect(); }
+    }, { threshold: 0.12 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+  return ref;
+}
+
+/* ── Scroll-progress hook ── */
+function useScrollProgress() {
+  const ref = useRef(null);
+  const [p, setP] = useState(0);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    let raf = 0;
+    const onScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const rect = el.getBoundingClientRect();
+        const vh = window.innerHeight;
+        const total = rect.height + vh;
+        const traveled = vh - rect.top;
+        const next = Math.max(0, Math.min(1, traveled / total));
+        setP(next);
+      });
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+      cancelAnimationFrame(raf);
+    };
+  }, []);
+  return [ref, p];
+}
+
+const clampN = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
+const remap = (v, inMin, inMax, outMin = 0, outMax = 1) =>
+  clampN((v - inMin) / (inMax - inMin)) * (outMax - outMin) + outMin;
+
+/* ── Nav ── */
+function Nav() {
+  const bp = useBreakpoint();
+  const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
+  useEffect(() => {
+    const fn = () => setScrolled(window.scrollY > 60);
+    window.addEventListener('scroll', fn);
+    return () => window.removeEventListener('scroll', fn);
+  }, []);
+  useEffect(() => {
+    document.body.classList.toggle('menu-open', open);
+  }, [open]);
+
+  const padX = bp === 'mobile' ? 20 : bp === 'tablet' ? 28 : 52;
+  const heightDesktop = scrolled ? 64 : 84;
+  const heightMobile = scrolled ? 56 : 60;
+  const navHeight = bp === 'mobile' ? heightMobile : heightDesktop;
+  const sideGap = bp === 'tablet' ? 22 : 40;
+
+  const navStyle = {
+    position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
+    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+    padding: `0 ${padX}px`,
+    height: `${navHeight}px`,
+    background: scrolled ? 'rgba(250,247,243,0.95)' : 'transparent',
+    backdropFilter: scrolled ? 'blur(12px)' : 'none',
+    borderBottom: scrolled ? '1px solid var(--rule)' : '1px solid transparent',
+    transition: 'all 0.5s cubic-bezier(0.16,1,0.3,1)'
+  };
+  const linkColor = scrolled ? 'var(--ink)' : 'white';
+  const linkStyle = {
+    fontFamily: 'var(--ff-body)', fontSize: 13, fontWeight: 400,
+    letterSpacing: '0.1em', textTransform: 'uppercase', textDecoration: 'none',
+    color: linkColor, opacity: 0.85,
+    textShadow: scrolled ? 'none' : '0 1px 4px rgba(0,0,0,0.4)',
+    transition: 'opacity 0.2s', cursor: 'pointer'
+  };
+  const phonePillBase = {
+    fontFamily: 'var(--ff-body)', fontWeight: 400,
+    letterSpacing: bp === 'tablet' ? '0.06em' : '0.1em',
+    textTransform: 'uppercase', textDecoration: 'none',
+    border: '1px solid var(--gold)', color: 'var(--gold)',
+    borderRadius: 1, opacity: 1,
+    transition: 'all 0.2s',
+    whiteSpace: 'nowrap',
+    fontSize: bp === 'tablet' ? 12 : 13,
+    padding: bp === 'tablet' ? '7px 14px' : '8px 20px',
+    textShadow: scrolled ? 'none' : '0 1px 4px rgba(0,0,0,0.3)'
+  };
+
+  const Hamburger = () => (
+    <button
+      aria-label="Ouvrir le menu"
+      onClick={() => setOpen(true)}
+      style={{
+        background: 'transparent', border: 'none', cursor: 'pointer',
+        width: 44, height: 44, display: 'flex', flexDirection: 'column',
+        justifyContent: 'center', alignItems: 'center', gap: 5, padding: 0
+      }}>
+      {[0,1,2].map(i => (
+        <span key={i} style={{
+          width: 22, height: 1, background: linkColor,
+          boxShadow: scrolled ? 'none' : '0 1px 2px rgba(0,0,0,0.3)'
+        }} />
+      ))}
+    </button>
+  );
+
+  // ── Mobile: logo left, [phone pill, hamburger] right ──
+  if (bp === 'mobile') {
+    return (
+      <>
+        <nav style={navStyle}>
+          <a href="#" style={{ display: 'flex', alignItems: 'center' }}>
+            <img src="assets/mybayt-logo.png"
+              alt="MyBayt" style={{ height: scrolled ? 24 : 28, objectFit: 'contain', transition: 'height 0.5s' }} />
+          </a>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <a href="tel:+212666091909" style={{ ...phonePillBase, fontSize: 11, padding: '6px 12px', letterSpacing: '0.06em' }}>
+              Appeler
+            </a>
+            <Hamburger />
+          </div>
+        </nav>
+        <MobileMenu open={open} onClose={() => setOpen(false)} />
+      </>
+    );
+  }
+
+  // ── Tablet & Desktop: original composition ──
+  const sideLinksLeft = ['Accueil', 'Nos Projets'];
+  const sideLinksRight = ['Contact'];
+  return (
+    <nav style={navStyle}>
+      <div style={{ display: 'flex', gap: sideGap, alignItems: 'center' }}>
+        {sideLinksLeft.map(l => {
+          const href = l === 'Nos Projets' ? 'Nos Projets.html' : '#';
+          return (
+            <a key={l} href={href} style={linkStyle}
+              onMouseEnter={(e) => e.target.style.opacity = '1'}
+              onMouseLeave={(e) => e.target.style.opacity = '0.85'}>{l}</a>
+          );
+        })}
+      </div>
+      <a href="#" style={{ display: 'flex', alignItems: 'center' }}>
+        <img src="assets/mybayt-logo.png"
+          alt="MyBayt" style={{ height: scrolled ? 32 : 40, objectFit: 'contain', transition: 'height 0.5s' }} />
+      </a>
+      <div style={{ display: 'flex', gap: sideGap, alignItems: 'center' }}>
+        {sideLinksRight.map(l =>
+          <a key={l} href="#contact" style={linkStyle}
+            onMouseEnter={(e) => e.target.style.opacity = '1'}
+            onMouseLeave={(e) => e.target.style.opacity = '0.85'}>{l}</a>
+        )}
+        <a href="tel:+212666091909" style={phonePillBase}
+          onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--gold)'; e.currentTarget.style.color = 'white'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--gold)'; }}>
+          +212 6 66 09 19 09
+        </a>
+      </div>
+    </nav>
+  );
+}
+
+/* ── Mobile full-screen menu overlay ── */
+function MobileMenu({ open, onClose }) {
+  const links = [
+    { label: 'Accueil', href: '#' },
+    { label: 'Nos Projets', href: 'Nos Projets.html' },
+    { label: 'Contact', href: '#contact' }
+  ];
+  return (
+    <div style={{
+      position: 'fixed', inset: 0, zIndex: 200,
+      background: 'var(--bg)',
+      transform: open ? 'translateY(0)' : 'translateY(-101%)',
+      transition: 'transform 0.55s cubic-bezier(0.16,1,0.3,1)',
+      display: 'flex', flexDirection: 'column',
+      pointerEvents: open ? 'auto' : 'none'
+    }}>
+      {/* Top bar — logo + close */}
+      <div style={{
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        padding: '0 20px', height: 60,
+        borderBottom: '1px solid var(--rule)'
+      }}>
+        <img src="assets/mybayt-logo.png"
+          alt="MyBayt" style={{ height: 28, objectFit: 'contain' }} />
+        <button onClick={onClose} aria-label="Fermer le menu"
+          style={{
+            background: 'transparent', border: 'none', cursor: 'pointer',
+            width: 44, height: 44, display: 'flex', alignItems: 'center', justifyContent: 'center',
+            color: 'var(--gold)', padding: 0
+          }}>
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M3 3l14 14M17 3L3 17" stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
+          </svg>
+        </button>
+      </div>
+
+      {/* Links — large display, hairline dividers */}
+      <nav style={{ flex: 1, padding: '32px 20px 20px', display: 'flex', flexDirection: 'column', overflow: 'auto' }}>
+        <p style={{
+          fontFamily: 'var(--ff-body)', fontSize: 11, letterSpacing: '0.16em',
+          textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 24,
+          display: 'flex', alignItems: 'center', gap: 14
+        }}>
+          <span style={{ width: 28, height: 1, background: 'var(--gold)' }} />
+          Menu
+        </p>
+        {links.map((l, i) => (
+          <a key={l.label} href={l.href} onClick={onClose}
+            style={{
+              fontFamily: 'var(--ff-display)', fontWeight: 300,
+              fontSize: 'clamp(32px, 9vw, 48px)', lineHeight: 1.2,
+              color: 'var(--ink)', textDecoration: 'none',
+              padding: '20px 0',
+              borderBottom: i < links.length - 1 ? '1px solid var(--rule)' : 'none',
+              display: 'flex', alignItems: 'center', justifyContent: 'space-between'
+            }}>
+            <span><em style={{ fontStyle: 'italic', color: 'var(--gold)', fontSize: '0.6em', marginRight: 12 }}>0{i+1}</em>{l.label}</span>
+            <span style={{ fontSize: 18, color: 'var(--gold)' }}>→</span>
+          </a>
+        ))}
+
+        <div style={{ marginTop: 'auto', paddingTop: 36 }}>
+          <p style={{
+            fontFamily: 'var(--ff-body)', fontSize: 11, letterSpacing: '0.16em',
+            textTransform: 'uppercase', color: 'var(--ink-light)', marginBottom: 14
+          }}>
+            Service commercial
+          </p>
+          {['+212 6 66 09 19 09', '+212 6 66 09 57 08'].map(n => (
+            <a key={n} href={`tel:${n}`} onClick={onClose}
+              style={{
+                display: 'block',
+                fontFamily: 'var(--ff-display)', fontSize: 22, fontWeight: 300,
+                color: 'var(--ink)', textDecoration: 'none', padding: '6px 0',
+                letterSpacing: '0.02em'
+              }}>{n}</a>
+          ))}
+          <a href="mailto:contact@mybayt.ma" onClick={onClose}
+            style={{
+              display: 'inline-block', marginTop: 14,
+              fontFamily: 'var(--ff-body)', fontSize: 13,
+              color: 'var(--gold)', textDecoration: 'none',
+              borderBottom: '1px solid var(--gold)', paddingBottom: 2
+            }}>
+            contact@mybayt.ma
+          </a>
+        </div>
+      </nav>
+    </div>
+  );
+}
+
+/* ── Hero ── */
+function Hero() {
+  const bp = useBreakpoint();
+  const padX = bp === 'mobile' ? 20 : bp === 'tablet' ? 36 : 64;
+  const padBottom = bp === 'mobile' ? 56 : bp === 'tablet' ? 48 : 56;
+  const padTop = bp === 'mobile' ? 32 : 40;
+  const innerGap = bp === 'mobile' ? 28 : 48;
+  const innerFlexDir = bp === 'mobile' ? 'column' : 'row';
+  const innerAlign = bp === 'mobile' ? 'flex-start' : 'flex-end';
+  const headlineSize = bp === 'mobile'
+    ? 'clamp(36px, 10vw, 56px)'
+    : 'clamp(52px, 7vw, 96px)';
+  const headlineMaxW = bp === 'mobile' ? '100%' : '660px';
+
+  // CTA: gold solid on desktop/tablet, hairline-bordered on mobile (not stretched)
+  const ctaStyle = bp === 'mobile'
+    ? {
+        display: 'inline-block', fontFamily: 'var(--ff-body)', fontSize: 12,
+        letterSpacing: '0.12em', textTransform: 'uppercase', textDecoration: 'none',
+        color: 'white', background: 'transparent',
+        border: '1px solid rgba(255,255,255,0.7)',
+        padding: '14px 28px', borderRadius: 1,
+        transition: 'background 0.2s, color 0.2s'
+      }
+    : {
+        display: 'inline-block', fontFamily: 'var(--ff-body)', fontSize: 12,
+        letterSpacing: '0.12em', textTransform: 'uppercase', textDecoration: 'none',
+        color: 'white', background: 'var(--gold)',
+        padding: '14px 32px', borderRadius: 1,
+        transition: 'transform 0.2s, background 0.2s'
+      };
+
+  return (
+    <section style={{
+      position: 'relative', minHeight: '100vh', display: 'flex', flexDirection: 'column',
+      justifyContent: 'flex-end', overflow: 'hidden',
+      background: 'var(--bg)'
+    }}>
+      <div className="hero-kb" style={{
+        position: 'absolute', inset: 0,
+        backgroundImage: 'url(uploads/IMG-20250113-WA0004-656fde64.jpg)',
+        backgroundSize: 'cover', backgroundPosition: 'center center',
+        filter: 'brightness(0.55)',
+        willChange: 'transform'
+      }} />
+      <div style={{
+        position: 'absolute', inset: 0,
+        background: 'linear-gradient(to top, oklch(13% 0.012 55) 0%, transparent 60%)'
+      }} />
+
+      <div style={{ position: 'relative', zIndex: 2, padding: `0 ${padX}px ${padBottom}px` }}>
+        <div style={{
+          display: 'flex', flexDirection: innerFlexDir,
+          alignItems: innerAlign,
+          justifyContent: 'space-between',
+          paddingTop: padTop, gap: innerGap
+        }}>
+          <div>
+            <p className="hero-enter-1" style={{
+              fontFamily: 'var(--ff-body)', fontSize: 11, letterSpacing: '0.16em',
+              textTransform: 'uppercase', color: 'var(--gold-light)', marginBottom: 20,
+              display: 'flex', alignItems: 'center', gap: 14
+            }}>
+              <span style={{ width: 32, height: 1, background: 'var(--gold-light)' }} />
+              Marrakech — Immobilier de Prestige
+            </p>
+            <h1 className="hero-enter-2" style={{
+              fontFamily: 'var(--ff-display)', fontWeight: 300, fontSize: headlineSize,
+              color: 'white', lineHeight: 1.0, letterSpacing: '-0.01em',
+              maxWidth: headlineMaxW
+            }}>
+              Être bien chez soi,<br />
+              <em style={{ fontStyle: 'italic', color: 'oklch(82% 0.06 60)' }}>c'est vivre</em><br />
+              au lieu d'exister.
+            </h1>
+          </div>
+          <div className="hero-enter-3" style={{
+            display: 'flex', flexDirection: 'column',
+            alignItems: bp === 'mobile' ? 'flex-start' : 'flex-end',
+            gap: 18,
+            paddingBottom: bp === 'mobile' ? 0 : 4
+          }}>
+            <a href="#projets" style={ctaStyle}
+              onMouseEnter={(e) => {
+                if (bp === 'mobile') {
+                  e.currentTarget.style.background = 'rgba(255,255,255,0.1)';
+                } else {
+                  e.currentTarget.style.background = 'oklch(52% 0.11 60)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (bp === 'mobile') {
+                  e.currentTarget.style.background = 'transparent';
+                } else {
+                  e.currentTarget.style.background = 'var(--gold)';
+                }
+              }}>
+              Découvrir nos projets
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ── Divider ── */
+function Rule({ label }) {
+  const bp = useBreakpoint();
+  const sideMargin = bp === 'mobile' ? 20 : bp === 'tablet' ? 36 : 64;
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 24, margin: `0 ${sideMargin}px` }}>
+      <span style={{ fontFamily: 'var(--ff-body)', fontSize: 11, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--ink-light)', whiteSpace: 'nowrap' }}>{label}</span>
+      <div style={{ flex: 1, height: 1, background: 'var(--rule)' }} />
+    </div>
+  );
+}
+
+/* ── About ── */
+function About() {
+  const bp = useBreakpoint();
+  const refL = useReveal(), refR = useReveal(), refS = useReveal();
+
+  const padX = bp === 'mobile' ? 20 : bp === 'tablet' ? 36 : 64;
+  const padY = bp === 'mobile' ? 56 : 72;
+  const gridCols = bp === 'mobile' ? '1fr' : '1fr 1fr';
+  const gridGap = bp === 'mobile' ? 36 : bp === 'tablet' ? 40 : 72;
+
+  return (
+    <section style={{
+      padding: `${padY}px ${padX}px`,
+      background: 'var(--bg)',
+      display: 'grid',
+      gridTemplateColumns: gridCols,
+      gap: gridGap,
+      alignItems: 'center'
+    }}>
+      <div ref={refL} className="reveal" style={{
+        position: 'relative',
+        width: '100%',
+        aspectRatio: '4/5',
+        maxHeight: bp === 'mobile' ? 'none' : 'calc(100vh - 144px)',
+        overflow: 'hidden',
+        order: bp === 'mobile' ? 0 : 0
+      }}>
+        <img src="uploads/eden-3.jpg" loading="lazy"
+          alt="Une réalisation MyBayt"
+          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+        <div aria-hidden="true" style={{
+          position: 'absolute', top: 0, left: 0, width: 56, height: 1,
+          background: 'var(--gold)'
+        }} />
+        <div aria-hidden="true" style={{
+          position: 'absolute', top: 0, left: 0, width: 1, height: 56,
+          background: 'var(--gold)'
+        }} />
+      </div>
+
+      <div ref={refR} className="reveal reveal-delay-1" style={{ maxWidth: 540 }}>
+        <p style={{
+          fontFamily: 'var(--ff-body)', fontSize: 11, letterSpacing: '0.16em',
+          textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 20,
+          display: 'flex', alignItems: 'center', gap: 14
+        }}>
+          <span style={{ width: 32, height: 1, background: 'var(--gold)' }} />
+          À propos
+        </p>
+
+        <h2 style={{
+          fontFamily: 'var(--ff-display)', fontWeight: 300,
+          fontSize: 'clamp(26px, 3.2vw, 46px)',
+          lineHeight: 1.1, letterSpacing: '-0.01em',
+          color: 'var(--ink)', marginBottom: 28
+        }}>
+          Promoteur de la <em style={{ fontStyle: 'italic', color: 'var(--gold)' }}>ville Ocre</em>,
+          au service d'un art de vivre.
+        </h2>
+
+        <p style={{
+          fontFamily: 'var(--ff-body)', fontSize: 14, lineHeight: 1.85,
+          color: 'var(--ink-mid)', marginBottom: 18
+        }}>
+          MyBayt conçoit des résidences d'exception à Marrakech, dans les quartiers
+          de référence de la ville. Notre signature architecturale est pensée pour
+          la lumière, l'intimité et la longévité.
+        </p>
+        <p style={{
+          fontFamily: 'var(--ff-body)', fontSize: 14, lineHeight: 1.85,
+          color: 'var(--ink-mid)', marginBottom: 36
+        }}>
+          Spécialisés dans le haut standing, nous offrons à nos clients un cadre durable et
+          fonctionnel, adapté aux modes et moments de vie de chacun.
+        </p>
+
+        <StatRow innerRef={refS} bp={bp} />
+      </div>
+    </section>
+  );
+}
+
+function StatRow({ innerRef, bp }) {
+  // Mobile: 3-col equal grid, hairline under each. Desktop/tablet: flex with vertical rules.
+  if (bp === 'mobile') {
+    return (
+      <div ref={innerRef} className="reveal reveal-delay-2" style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(3, 1fr)',
+        gap: 14,
+        paddingTop: 28,
+        borderTop: '1px solid var(--rule)'
+      }}>
+        <StatCell num="2019" label={<>Fondé&nbsp;à<br />Marrakech</>} mobile />
+        <StatCell num="6" sup="+" label={<>Années<br />d'expérience</>} mobile />
+        <StatCell num="5" label={<>Projets<br />signés</>} mobile />
+      </div>
+    );
+  }
+  return (
+    <div ref={innerRef} className="reveal reveal-delay-2" style={{
+      display: 'flex', alignItems: 'flex-end', gap: 32,
+      paddingTop: 28, borderTop: '1px solid var(--rule)'
+    }}>
+      <StatCell num="2019" label={<>Fondé&nbsp;à<br />Marrakech</>} />
+      <span style={{ width: 1, height: 44, background: 'var(--rule)' }} />
+      <StatCell num="6" sup="+" label={<>Années<br />d'expérience</>} />
+      <span style={{ width: 1, height: 44, background: 'var(--rule)' }} />
+      <StatCell num="5" label={<>Projets<br />signés</>} />
+    </div>
+  );
+}
+
+function StatCell({ num, sup, label, mobile }) {
+  return (
+    <div style={mobile ? { borderBottom: '1px solid var(--rule)', paddingBottom: 14 } : {}}>
+      <div style={{
+        display: 'flex', alignItems: 'baseline', gap: 2,
+        fontFamily: 'var(--ff-display)', fontWeight: 300, color: 'var(--ink)',
+        lineHeight: 0.9, letterSpacing: '-0.02em'
+      }}>
+        <span style={{ fontSize: mobile ? 32 : 38 }}>{num}</span>
+        {sup && <span style={{ fontSize: mobile ? 18 : 22, color: 'var(--gold)' }}>{sup}</span>}
+      </div>
+      <div style={{
+        marginTop: 10,
+        fontFamily: 'var(--ff-body)', fontSize: 10, letterSpacing: '0.16em',
+        textTransform: 'uppercase', color: 'var(--ink-light)', lineHeight: 1.5
+      }}>
+        {label}
+      </div>
+    </div>
+  );
+}
+
+/* ── Values ── */
+function Values() {
+  const bp = useBreakpoint();
+  const vals = [
+    {
+      n: '01',
+      title: 'Excellence',
+      body: "Donner le meilleur de nous-mêmes. Le challenge de se surpasser avec le respect de l\u2019éthique affirme notre image d\u2019excellence.",
+      detail: {
+        lead: "L'excellence n'est pas une finalité, c'est une exigence quotidienne.",
+        paragraphs: [
+          "Chaque projet MyBayt est pensé comme une œuvre — du choix des matériaux aux finitions les plus discrètes, rien n'est laissé au hasard. Nos équipes architectes, artisans et ingénieurs partagent une même obsession : la justesse du détail.",
+          "Cette quête se traduit par une sélection rigoureuse de nos partenaires, un contrôle qualité à chaque étape du chantier, et un dialogue permanent avec nos clients pour anticiper leurs attentes les plus fines."
+        ],
+        pillars: [
+          { k: 'Matériaux nobles', v: 'Marbres, bois massifs, zellige sur-mesure' },
+          { k: 'Artisanat marocain', v: 'Maâlems et ateliers de Marrakech' },
+          { k: 'Contrôle qualité', v: '4 phases de validation par projet' }
+        ]
+      }
+    },
+    {
+      n: '02',
+      title: 'Audace',
+      body: "Passion du métier, créativité et avant-gardisme sont les qualités ancrées en nous pour être un créateur de tendances.",
+      detail: {
+        lead: "Oser réinventer l'art de vivre marrakchi, sans jamais le trahir.",
+        paragraphs: [
+          "Nous croyons que le luxe d'aujourd'hui se nourrit de contrastes : tradition et modernité, intimité et ouverture, minéralité et lumière. Cette tension créative guide chacun de nos partis-pris architecturaux.",
+          "De la signature des façades aux jardins suspendus, en passant par les volumes cathédrale, nos projets assument une esthétique singulière qui marque durablement le paysage de la ville Ocre."
+        ],
+        pillars: [
+          { k: 'Architecture signée', v: 'Cabinets primés à l\'international' },
+          { k: 'Innovation domotique', v: 'Maisons connectées et discrètes' },
+          { k: 'Design contextuel', v: 'Réinterprétation du patrimoine' }
+        ]
+      }
+    },
+    {
+      n: '03',
+      title: 'Bonne gouvernance',
+      body: 'Être transparents et justes — la ligne de conduite qui définit le mode de fonctionnement de MyBayt.',
+      detail: {
+        lead: "Une gouvernance limpide est le socle de la confiance que nous bâtissons.",
+        paragraphs: [
+          "MyBayt s'impose un cadre éthique strict : conformité réglementaire, traçabilité financière, et reporting régulier auprès de nos investisseurs et partenaires. La transparence n'est pas un argument, c'est une méthode.",
+          "Chaque décision stratégique passe par un comité dédié qui garantit l'alignement entre notre vision long terme et l'intérêt de nos clients."
+        ],
+        pillars: [
+          { k: 'Comité éthique', v: 'Validation des décisions majeures' },
+          { k: 'Reporting client', v: 'Mise à jour mensuelle des chantiers' }
+        ]
+      }
+    },
+    {
+      n: '04',
+      title: 'Engagements',
+      body: 'Clarté, transparence et un esprit positif constructif encadrent nos relations avec clients, partenaires et autorités.',
+      detail: {
+        lead: "Nos engagements ne sont pas des promesses : ce sont des contrats.",
+        paragraphs: [
+          "Délais tenus, budgets maîtrisés, qualité garantie : ces fondamentaux structurent chacune de nos relations. Nous préférons ralentir un projet plutôt que de transiger sur une exigence — et nos clients le savent.",
+          "Au-delà du livrable, nous accompagnons chaque acquéreur sur la durée : service après-vente, conciergerie, gestion locative. MyBayt reste présent bien après la remise des clés."
+        ],
+        pillars: [
+          { k: 'Délais garantis', v: 'Pénalités contractuelles assumées' },
+          { k: 'Service après-vente', v: 'Équipe dédiée' },
+          { k: 'Conciergerie', v: 'Accompagnement sur-mesure' }
+        ]
+      }
+    }
+  ];
+
+  const [active, setActive] = useState(null);
+  const ref = useReveal();
+  const current = active !== null ? vals[active] : null;
+
+  const padX = bp === 'mobile' ? 20 : bp === 'tablet' ? 36 : 64;
+  const padY = bp === 'mobile' ? 56 : 72;
+  const cardCols = bp === 'mobile' ? '1fr' : bp === 'tablet' ? '1fr 1fr' : 'repeat(4, 1fr)';
+  const headerDir = bp === 'mobile' ? 'column' : 'row';
+  const headerAlign = bp === 'mobile' ? 'flex-start' : 'flex-end';
+  const headerGap = bp === 'mobile' ? 14 : 0;
+
+  return (
+    <section style={{ background: 'var(--ink)', padding: `${padY}px ${padX}px` }}>
+      <div ref={ref} className="reveal" style={{
+        marginBottom: 48,
+        display: 'flex',
+        flexDirection: headerDir,
+        justifyContent: 'space-between',
+        alignItems: headerAlign,
+        gap: headerGap
+      }}>
+        <div>
+          <p style={{ fontFamily: 'var(--ff-body)', fontSize: 11, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--gold-light)', marginBottom: 16 }}>Ce qui nous définit</p>
+          <h2 style={{ fontFamily: 'var(--ff-display)', fontWeight: 300, fontSize: 'clamp(26px,3vw,42px)', color: 'white', lineHeight: 1.1 }}>
+            Nos valeurs
+          </h2>
+        </div>
+        <p style={{ fontFamily: 'var(--ff-body)', fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)' }}>
+          {active === null ? 'Cliquez pour explorer' : 'Cliquez à nouveau pour fermer'}
+        </p>
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: cardCols, gap: 2 }}>
+        {vals.map((v, i) =>
+          <ValCard
+            key={v.n}
+            {...v}
+            bp={bp}
+            delay={i * 0.1}
+            isActive={active === i}
+            anyActive={active !== null}
+            onClick={() => setActive(active === i ? null : i)} />
+        )}
+      </div>
+      <ValDetail value={current} onClose={() => setActive(null)} bp={bp} />
+    </section>
+  );
+}
+
+function ValCard({ n, title, body, delay, isActive, anyActive, onClick, bp }) {
+  const [hov, setHov] = useState(false);
+  const ref = useReveal();
+  const dim = anyActive && !isActive;
+  const lit = isActive || hov;
+  const padding = bp === 'mobile' ? '32px 24px' : '48px 36px';
+  const minH = bp === 'mobile' ? 'auto' : 'auto';
+  return (
+    <div ref={ref} className={`reveal reveal-delay-${Math.round(delay * 10)}`}
+      role="button"
+      tabIndex={0}
+      onClick={onClick}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick(); } }}
+      style={{
+        position: 'relative',
+        padding,
+        minHeight: 44,
+        borderTop: '1px solid rgba(255,255,255,0.1)',
+        background: isActive || hov ? 'var(--gold)' : 'transparent',
+        opacity: dim && !hov ? 0.45 : 1,
+        transition: 'background 0.4s cubic-bezier(0.16,1,0.3,1), opacity 0.4s ease',
+        cursor: 'pointer',
+        outline: 'none'
+      }}
+      onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: bp === 'mobile' ? 24 : 32 }}>
+        <span style={{ fontFamily: 'var(--ff-display)', fontSize: 13, color: lit ? 'rgba(255,255,255,0.6)' : 'var(--gold)', transition: 'color 0.4s' }}>{n}</span>
+        <span style={{
+          width: 28, height: 28, borderRadius: '50%',
+          border: `1px solid ${lit ? 'rgba(255,255,255,0.55)' : 'rgba(255,255,255,0.2)'}`,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          transition: 'all 0.4s cubic-bezier(0.16,1,0.3,1)',
+          transform: isActive ? 'rotate(45deg)' : 'rotate(0deg)',
+          color: lit ? 'white' : 'rgba(255,255,255,0.5)',
+          fontSize: 14, lineHeight: 1, fontWeight: 300
+        }}>+</span>
+      </div>
+      <h3 style={{ fontFamily: 'var(--ff-display)', fontWeight: 400, fontSize: bp === 'mobile' ? 24 : 28, color: 'white', marginBottom: bp === 'mobile' ? 16 : 20, lineHeight: 1.2 }}>{title}</h3>
+      <p style={{ fontFamily: 'var(--ff-body)', fontSize: 13, lineHeight: 1.8, color: lit ? 'rgba(255,255,255,0.85)' : 'rgba(255,255,255,0.45)', transition: 'color 0.4s' }}>{body}</p>
+      <div style={{
+        position: 'absolute', left: 0, right: 0, bottom: -1, height: 2,
+        background: 'var(--gold)',
+        transform: isActive ? 'scaleX(1)' : 'scaleX(0)',
+        transformOrigin: 'left',
+        transition: 'transform 0.5s cubic-bezier(0.16,1,0.3,1)'
+      }} />
+    </div>
+  );
+}
+
+function ValDetail({ value, onClose, bp }) {
+  const [cached, setCached] = useState(value);
+  useEffect(() => {
+    if (value) setCached(value);
+  }, [value]);
+  const open = !!value;
+  const v = cached;
+
+  const detailCols = bp === 'desktop' ? '1fr 1.2fr 1fr' : '1fr';
+  const detailGap = bp === 'desktop' ? 48 : bp === 'tablet' ? 28 : 24;
+  const detailPad = bp === 'mobile' ? '36px 8px 16px' : '56px 8px 16px';
+
+  return (
+    <div style={{
+      overflow: 'hidden',
+      maxHeight: open ? (bp === 'mobile' ? 1400 : bp === 'tablet' ? 1100 : 720) : 0,
+      opacity: open ? 1 : 0,
+      transition: 'max-height 0.7s cubic-bezier(0.16,1,0.3,1), opacity 0.5s ease',
+      borderTop: open ? '1px solid rgba(255,255,255,0.1)' : '1px solid transparent',
+      marginTop: 0
+    }}>
+      {v &&
+        <div style={{
+          padding: detailPad,
+          display: 'grid', gridTemplateColumns: detailCols, gap: detailGap,
+          transform: open ? 'translateY(0)' : 'translateY(-12px)',
+          transition: 'transform 0.7s cubic-bezier(0.16,1,0.3,1)'
+        }}>
+          <div>
+            <div style={{ fontFamily: 'var(--ff-display)', fontSize: 13, color: 'var(--gold)', marginBottom: 24, letterSpacing: '0.05em' }}>
+              {v.n} — Détail
+            </div>
+            <h3 style={{ fontFamily: 'var(--ff-display)', fontWeight: 300, fontSize: 'clamp(32px,3.2vw,52px)', color: 'white', lineHeight: 1.05, marginBottom: 24 }}>
+              <em style={{ fontStyle: 'italic' }}>{v.title}</em>
+            </h3>
+            <p style={{ fontFamily: 'var(--ff-display)', fontStyle: 'italic', fontWeight: 300, fontSize: 18, lineHeight: 1.55, color: 'var(--gold-light)', maxWidth: 300 }}>
+              « {v.detail.lead} »
+            </p>
+          </div>
+
+          <div style={{
+            borderTop: bp !== 'desktop' ? '1px solid rgba(255,255,255,0.1)' : 'none',
+            paddingTop: bp !== 'desktop' ? 24 : 8
+          }}>
+            {v.detail.paragraphs.map((p, i) =>
+              <p key={i} style={{
+                fontFamily: 'var(--ff-body)', fontSize: 14, lineHeight: 1.85,
+                color: 'rgba(255,255,255,0.7)', marginBottom: 18
+              }}>{p}</p>
+            )}
+            <button onClick={onClose} style={{
+              marginTop: 16,
+              background: 'transparent', border: 'none', cursor: 'pointer',
+              fontFamily: 'var(--ff-body)', fontSize: 11, letterSpacing: '0.16em', textTransform: 'uppercase',
+              color: 'rgba(255,255,255,0.55)', padding: 0,
+              display: 'inline-flex', alignItems: 'center', gap: 10,
+              transition: 'color 0.2s', minHeight: 44
+            }}
+              onMouseEnter={(e) => e.currentTarget.style.color = 'var(--gold-light)'}
+              onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255,255,255,0.55)'}>
+              <span style={{ width: 24, height: 1, background: 'currentColor', display: 'inline-block' }}></span>
+              Refermer
+            </button>
+          </div>
+
+          <div style={{
+            borderLeft: bp === 'desktop' ? '1px solid rgba(255,255,255,0.1)' : 'none',
+            borderTop: bp !== 'desktop' ? '1px solid rgba(255,255,255,0.1)' : 'none',
+            paddingLeft: bp === 'desktop' ? 32 : 0,
+            paddingTop: bp !== 'desktop' ? 24 : 0
+          }}>
+            <p style={{ fontFamily: 'var(--ff-body)', fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)', marginBottom: 24 }}>
+              En pratique
+            </p>
+            {v.detail.pillars.map((p, i) =>
+              <div key={i} style={{
+                padding: '16px 0',
+                borderBottom: i < v.detail.pillars.length - 1 ? '1px solid rgba(255,255,255,0.08)' : 'none'
+              }}>
+                <div style={{ fontFamily: 'var(--ff-display)', fontSize: 18, fontWeight: 400, color: 'white', marginBottom: 6 }}>
+                  {p.k}
+                </div>
+                <div style={{ fontFamily: 'var(--ff-body)', fontSize: 12, color: 'rgba(255,255,255,0.55)', lineHeight: 1.6 }}>
+                  {p.v}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      }
+    </div>
+  );
+}
+
+/* ── Projects ── */
+function Projects() {
+  const bp = useBreakpoint();
+  const projects = [
+    { name: 'Résidence EDEN Guéliz', tag: 'En cours', price: null, beds: null, baths: null, m2: null, img: 'uploads/Eden de gueliz.jpg', href: 'projects/Eden Gueliz.html' },
+    { name: 'La Vallée de Guéliz 4', tag: 'Nouveau', price: null, beds: null, baths: null, m2: null, img: 'uploads/Valle de gueliz 4.jpeg', href: 'projects/Vallee de Gueliz 4.html' },
+    { name: 'Vallée de Guéliz 3', tag: 'Disponible', price: 'Prix sur demande', beds: 6, baths: 2, m2: 200, img: 'uploads/Vallee de gueliz 3.jpg', href: 'projects/Vallee de Gueliz 3.html' },
+    { name: 'Vallée de Guéliz 2', tag: 'Disponible', price: 'Prix sur demande', beds: 9, baths: 3, m2: 600, img: 'uploads/Vallee de gueliz 2.jpg', href: 'projects/Vallee de Gueliz 2.html' },
+    { name: 'Vallée de Guéliz 1', tag: 'Livré', price: 'Prix sur demande', beds: 10, baths: 2, m2: 500, img: 'uploads/Vallee de gueliz 1-11982a43.jpg', href: 'projects/Vallee de Gueliz 1.html' }
+  ];
+
+  const visible = bp === 'tablet' ? 2 : 3;
+  const isMobile = bp === 'mobile';
+
+  const [offset, setOffset] = useState(0);
+  const [dragX, setDragX] = useState(0);
+  const [dragging, setDragging] = useState(false);
+  const [playing, setPlaying] = useState(true);
+  const startX = useRef(0);
+  const max = projects.length - visible;
+  const ref = useReveal();
+
+  // Auto-advance — disabled on mobile (native scroll handles paging)
+  useEffect(() => {
+    if (isMobile) return;
+    if (!playing) return;
+    const t = setInterval(() => setOffset(o => o >= max ? 0 : o + 1), 4500);
+    return () => clearInterval(t);
+  }, [playing, max, isMobile]);
+
+  // Clamp offset when visible count changes (tablet/desktop swap)
+  useEffect(() => {
+    setOffset(o => Math.min(o, Math.max(0, max)));
+  }, [max]);
+
+  const onDragStart = (clientX) => { startX.current = clientX; setDragging(true); setDragX(0); };
+  const onDragMove = (clientX) => { if (!dragging) return; setDragX(clientX - startX.current); };
+  const onDragEnd = () => {
+    if (!dragging) return;
+    setDragging(false);
+    if (dragX < -60) setOffset(o => Math.min(max, o + 1));
+    else if (dragX > 60) setOffset(o => Math.max(0, o - 1));
+    setDragX(0);
+  };
+
+  const padX = isMobile ? 20 : bp === 'tablet' ? 36 : 64;
+  const padY = isMobile ? 56 : 72;
+
+  // Header — stacks on mobile
+  const headerDir = isMobile ? 'column' : 'row';
+  const headerAlign = isMobile ? 'flex-start' : 'flex-end';
+  const headerGap = isMobile ? 18 : 0;
+
+  return (
+    <section id="projets" style={{ padding: `${padY}px ${padX}px`, background: 'var(--bg-warm)' }}>
+      <div ref={ref} className="reveal" style={{
+        display: 'flex',
+        flexDirection: headerDir,
+        justifyContent: 'space-between',
+        alignItems: headerAlign,
+        gap: headerGap,
+        marginBottom: 36
+      }}>
+        <div>
+          <p style={{ fontFamily: 'var(--ff-body)', fontSize: 11, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 20 }}>Réalisations</p>
+          <h2 style={{ fontFamily: 'var(--ff-display)', fontWeight: 300, fontSize: 'clamp(26px,3vw,42px)', lineHeight: 1.1 }}>
+            Nos projets
+          </h2>
+        </div>
+        <a href="Nos Projets.html" style={{
+          fontFamily: 'var(--ff-body)', fontSize: 12, letterSpacing: '0.12em', textTransform: 'uppercase',
+          textDecoration: 'none', color: 'var(--ink)', borderBottom: '1px solid var(--ink)', paddingBottom: 4,
+          transition: 'color 0.2s, border-color 0.2s'
+        }}
+          onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--gold)'; e.currentTarget.style.borderColor = 'var(--gold)'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--ink)'; e.currentTarget.style.borderColor = 'var(--ink)'; }}>
+          Voir tous les projets
+        </a>
+      </div>
+
+      {/* Mobile — native horizontal scroll-snap */}
+      {isMobile ? (
+        <div className="mb-hscroll" style={{
+          display: 'flex',
+          gap: 12,
+          padding: '0 20px 4px',
+          margin: '0 -20px',
+          scrollPaddingLeft: 20
+        }}>
+          {projects.map((p, i) => (
+            <div key={p.name} style={{ flex: '0 0 88vw', maxWidth: 360 }}>
+              <ProjectCard {...p} i={i} />
+            </div>
+          ))}
+        </div>
+      ) : (
+        // Desktop / Tablet — JS transform slider
+        <div style={{ overflow: 'hidden', cursor: dragging ? 'grabbing' : 'grab', userSelect: 'none' }}
+          onMouseDown={(e) => onDragStart(e.clientX)}
+          onMouseMove={(e) => onDragMove(e.clientX)}
+          onMouseUp={onDragEnd}
+          onMouseLeave={onDragEnd}
+          onTouchStart={(e) => onDragStart(e.touches[0].clientX)}
+          onTouchMove={(e) => onDragMove(e.touches[0].clientX)}
+          onTouchEnd={onDragEnd}>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: `repeat(${projects.length}, calc((100%) / ${visible}))`,
+            gap: 3,
+            transform: `translateX(calc(-${offset} * (100% / ${visible} + 1px) + ${dragX}px))`,
+            transition: dragging ? 'none' : 'transform 0.6s cubic-bezier(0.16,1,0.3,1)'
+          }}>
+            {projects.map((p, i) => <ProjectCard key={p.name} {...p} i={i} />)}
+          </div>
+        </div>
+      )}
+
+      {/* Pill scrubber + play/pause — hidden on mobile (native swipe replaces) */}
+      {!isMobile && (
+        <div style={{ marginTop: 36, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12 }}>
+          <div style={{
+            display: 'flex', alignItems: 'center',
+            background: 'var(--bg-warm)', borderRadius: 100,
+            padding: '10px 20px', gap: 10,
+            border: '1px solid var(--rule)'
+          }}>
+            <div style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: 10 }}>
+              {Array.from({ length: max + 1 }).map((_, i) =>
+                <div key={i} onClick={() => setOffset(i)} style={{
+                  width: i === offset ? 32 : 8,
+                  height: 8,
+                  borderRadius: 100,
+                  background: i === offset ? 'var(--gold)' : 'var(--rule)',
+                  transition: 'width 0.45s cubic-bezier(0.16,1,0.3,1), background 0.3s',
+                  cursor: 'pointer'
+                }} />
+              )}
+            </div>
+          </div>
+
+          <button onClick={() => setPlaying(p => !p)} className="mb-play-btn" style={{
+            width: 44, height: 44, borderRadius: '50%',
+            background: 'var(--bg-warm)', border: '1px solid var(--rule)',
+            cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+            transition: 'background 0.2s, border-color 0.2s', flexShrink: 0,
+            color: 'var(--ink)'
+          }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--gold)'; e.currentTarget.style.borderColor = 'var(--gold)'; e.currentTarget.style.color = '#fff'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--bg-warm)'; e.currentTarget.style.borderColor = 'var(--rule)'; e.currentTarget.style.color = 'var(--ink)'; }}>
+            {playing ?
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <rect x="1.5" y="1" width="3" height="10" rx="1" fill="currentColor" />
+                <rect x="7.5" y="1" width="3" height="10" rx="1" fill="currentColor" />
+              </svg> :
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M2 1.5l9 4.5-9 4.5V1.5z" fill="currentColor" />
+              </svg>
+            }
+          </button>
+        </div>
+      )}
+    </section>
+  );
+}
+
+function ProjectCard({ name, tag, price, beds, baths, m2, img, href, i }) {
+  const [hov, setHov] = useState(false);
+  const ref = useReveal();
+  return (
+    <a ref={ref} href={href || '#'} className={`reveal reveal-delay-${i + 1}`}
+      style={{ position: 'relative', cursor: 'pointer', overflow: 'hidden', aspectRatio: '3/4', display: 'block', textDecoration: 'none' }}
+      onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}>
+      <img src={img} alt={name} draggable="false" loading="lazy" style={{
+        width: '100%', height: '100%', objectFit: 'cover', display: 'block',
+        transform: hov ? 'scale(1.05)' : 'scale(1)',
+        transition: 'transform 0.8s cubic-bezier(0.16,1,0.3,1)'
+      }} />
+      <div style={{
+        position: 'absolute', inset: 0,
+        background: hov ?
+          'linear-gradient(to top, rgba(13,10,8,0.95) 0%, rgba(13,10,8,0.55) 45%, rgba(13,10,8,0.15) 100%)' :
+          'linear-gradient(to top, rgba(13,10,8,0.92) 0%, rgba(13,10,8,0.45) 45%, rgba(13,10,8,0.05) 100%)',
+        transition: 'background 0.5s'
+      }} />
+      <div style={{
+        position: 'absolute', top: 24, left: 24,
+        fontFamily: 'var(--ff-body)', fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase',
+        background: 'var(--gold)', color: 'white', padding: '6px 14px', fontWeight: 500,
+        boxShadow: '0 4px 14px rgba(0,0,0,0.25)'
+      }}>{tag}</div>
+      <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '28px 28px 32px' }}>
+        <h3 style={{
+          fontFamily: 'var(--ff-display)', fontWeight: 500, fontSize: 'clamp(22px,2.5vw,28px)', color: 'white',
+          marginBottom: 14, lineHeight: 1.15,
+          textShadow: '0 2px 18px rgba(0,0,0,0.55), 0 1px 3px rgba(0,0,0,0.35)'
+        }}>{name}</h3>
+        {(beds || price) &&
+          <div style={{ display: 'flex', gap: 20, alignItems: 'center', flexWrap: 'wrap' }}>
+            {price && <span style={{ fontFamily: 'var(--ff-body)', fontSize: 14, color: 'var(--gold-light)', fontWeight: 500, textShadow: '0 1px 6px rgba(0,0,0,0.5)' }}>{price}</span>}
+            {beds && <span style={{ fontFamily: 'var(--ff-body)', fontSize: 13, color: 'rgba(255,255,255,0.85)', textShadow: '0 1px 6px rgba(0,0,0,0.5)' }}>{beds} ch. · {baths} sdb · {m2} m²</span>}
+          </div>
+        }
+        <div style={{
+          marginTop: 20, overflow: 'hidden', maxHeight: hov ? '40px' : '0px',
+          transition: 'max-height 0.5s cubic-bezier(0.16,1,0.3,1)'
+        }}>
+          <span style={{
+            fontFamily: 'var(--ff-body)', fontSize: 12, letterSpacing: '0.12em', textTransform: 'uppercase',
+            color: 'white', borderBottom: '1px solid rgba(255,255,255,0.6)', paddingBottom: 3
+          }}>Découvrir →</span>
+        </div>
+      </div>
+    </a>
+  );
+}
+
+/* ── Testimonials — stacked deck ── */
+function Testimonials() {
+  const bp = useBreakpoint();
+  const items = [
+    { quote: "Une expérience d'achat exceptionnelle. L'équipe MyBayt a su comprendre nos besoins et nous accompagner tout au long du processus. Un promoteur de confiance, du premier rendez-vous jusqu'à la remise des clés.", author: 'Nadia Mansouri', role: 'Propriétaire', project: 'Vallée de Guéliz 3', year: '2024' },
+    { quote: "La qualité de construction et la finition dépassent nos attentes. MyBayt tient ses promesses — c'est rare dans ce secteur.", author: 'Omar El Fassi', role: 'Propriétaire', project: 'Eden Guéliz', year: '2023' },
+    { quote: "Transparence, réactivité, professionnalisme. Je recommande MyBayt à toute personne souhaitant investir à Marrakech en toute sérénité.", author: 'Jean-Marc Lefèvre', role: 'Investisseur', project: 'Vallée de Guéliz 2', year: '2023' },
+    { quote: "Nous avons visité plusieurs promoteurs avant de choisir MyBayt. Leur sens du détail et la lumière des appartements ont fait la différence.", author: 'Salma El Idrissi', role: 'Propriétaire', project: 'Eden Guéliz', year: '2025' },
+    { quote: "Un vrai partenaire. Pas un vendeur. MyBayt s'est engagé sur les délais et a tenu parole, jusqu'au dernier détail.", author: 'Karim Benjelloun', role: 'Investisseur', project: 'Vallée de Guéliz 1', year: '2022' },
+    { quote: "L'emplacement à Guéliz, la qualité des matériaux, l'accompagnement administratif — tout a été à la hauteur. Notre famille s'y sent chez elle.", author: 'Yasmine & Tarek Alaoui', role: 'Propriétaires', project: 'Vallée de Guéliz 3', year: '2024' }
+  ];
+
+  const [order, setOrder] = useState(items.map((_, i) => i));
+  const [drag, setDrag] = useState({ x: 0, y: 0, active: false });
+  const [flying, setFlying] = useState(null);
+  const startRef = useRef({ x: 0, y: 0 });
+  const cardRef = useRef(null);
+
+  const top = order[0];
+  const total = items.length;
+  const counter = top + 1;
+
+  const ref = useReveal();
+
+  const advance = (dir) => {
+    setFlying({ dir });
+    setTimeout(() => {
+      setOrder(o => [...o.slice(1), o[0]]);
+      setDrag({ x: 0, y: 0, active: false });
+      setFlying(null);
+    }, 380);
+  };
+  const rewind = () => {
+    setOrder(o => [o[o.length - 1], ...o.slice(0, -1)]);
+  };
+
+  const onPointerDown = (e) => {
+    if (flying) return;
+    e.target.setPointerCapture?.(e.pointerId);
+    startRef.current = { x: e.clientX, y: e.clientY };
+    setDrag({ x: 0, y: 0, active: true });
+  };
+  const onPointerMove = (e) => {
+    if (!drag.active || flying) return;
+    setDrag({
+      x: e.clientX - startRef.current.x,
+      y: (e.clientY - startRef.current.y) * 0.4,
+      active: true
+    });
+  };
+  const onPointerUp = () => {
+    if (!drag.active || flying) return;
+    const threshold = 110;
+    if (Math.abs(drag.x) > threshold) {
+      advance(drag.x > 0 ? 1 : -1);
+    } else {
+      setDrag({ x: 0, y: 0, active: false });
+    }
+  };
+
+  const [idle, setIdle] = useState(0);
+  useEffect(() => {
+    if (drag.active || flying) return;
+    let raf;
+    let t0 = performance.now();
+    const tick = (t) => {
+      const dt = (t - t0) / 1000;
+      setIdle(Math.sin(dt * 0.8) * 1);
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [drag.active, flying]);
+
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === 'ArrowRight') advance(1);
+      else if (e.key === 'ArrowLeft') rewind();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
+
+  const padX = bp === 'mobile' ? 20 : bp === 'tablet' ? 36 : 64;
+  const padTop = bp === 'mobile' ? 64 : 88;
+  const padBottom = bp === 'mobile' ? 80 : 110;
+
+  const stageCols = bp === 'mobile' ? '1fr' : '1.4fr 1fr';
+  const stageGap = bp === 'mobile' ? 36 : bp === 'tablet' ? 40 : 64;
+  const stageMinH = bp === 'mobile' ? 0 : 460;
+
+  const stackHeight = bp === 'mobile' ? 380 : 440;
+  const cardPadding = bp === 'mobile' ? '32px 28px 28px' : '48px 52px 36px';
+
+  const headerDir = bp === 'mobile' ? 'column' : 'row';
+  const headerAlign = bp === 'mobile' ? 'flex-start' : 'flex-end';
+  const headerGap = bp === 'mobile' ? 14 : 48;
+
+  const rightPadL = bp === 'mobile' ? 0 : 24;
+
+  return (
+    <section style={{ background: 'var(--bg)', padding: `${padTop}px ${padX}px ${padBottom}px`, overflow: 'hidden', position: 'relative' }}>
+      <div ref={ref} className="reveal" style={{
+        display: 'flex',
+        flexDirection: headerDir,
+        justifyContent: 'space-between',
+        alignItems: headerAlign,
+        marginBottom: bp === 'mobile' ? 40 : 64,
+        borderBottom: '1px solid var(--rule)', paddingBottom: bp === 'mobile' ? 24 : 32,
+        gap: headerGap
+      }}>
+        <div>
+          <p style={{ fontFamily: 'var(--ff-body)', fontSize: 11, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 14 }}>
+            Témoignages clients
+          </p>
+          <h2 style={{
+            fontFamily: 'var(--ff-display)', fontWeight: 300, fontSize: 'clamp(26px,3vw,42px)',
+            lineHeight: 1.1, color: 'var(--ink)', letterSpacing: '-0.01em'
+          }}>
+            Ce que disent nos <em style={{ fontStyle: 'italic' }}>résidents</em>
+          </h2>
+        </div>
+        <div style={{
+          fontFamily: 'var(--ff-body)', fontSize: 12, color: 'var(--ink-light)',
+          letterSpacing: '0.08em', textTransform: 'uppercase', whiteSpace: 'nowrap', paddingBottom: 6
+        }}>
+          Glissez · cliquez · ←/→
+        </div>
+      </div>
+
+      <div style={{
+        display: 'grid', gridTemplateColumns: stageCols, gap: stageGap, alignItems: 'center',
+        minHeight: stageMinH
+      }}>
+        {/* Stack */}
+        <div style={{
+          position: 'relative', height: stackHeight, perspective: 1400,
+          userSelect: 'none'
+        }}>
+          {order.map((idx, pos) => {
+            const item = items[idx];
+            const isTop = pos === 0;
+            const depth = pos;
+            if (depth > 3) return null;
+
+            const baseRotate = [0, -3.2, 4.1, -2.4][depth] || 0;
+            const baseY = depth * 14;
+            const baseX = [0, 22, -28, 18][depth] || 0;
+            const scale = 1 - depth * 0.045;
+            const opacity = depth === 0 ? 1 : 1 - depth * 0.28;
+
+            let tx = baseX, ty = baseY, rot = baseRotate, op = opacity;
+            if (isTop) {
+              if (flying) {
+                tx = flying.dir * 720;
+                ty = -40;
+                rot = flying.dir * 22;
+                op = 0;
+              } else if (drag.active) {
+                tx = drag.x;
+                ty = drag.y;
+                rot = drag.x * 0.06;
+              } else {
+                rot = idle * 0.7;
+                ty = baseY + Math.sin(idle * 1.4) * 1.2;
+              }
+            }
+
+            const transition = isTop && drag.active ? 'none' :
+              'transform 0.55s cubic-bezier(0.16,1,0.3,1), opacity 0.45s ease';
+
+            return (
+              <Card
+                key={`${idx}-${pos}`}
+                item={item}
+                isTop={isTop}
+                cardPadding={cardPadding}
+                onPointerDown={isTop ? onPointerDown : undefined}
+                onPointerMove={isTop ? onPointerMove : undefined}
+                onPointerUp={isTop ? onPointerUp : undefined}
+                onPointerCancel={isTop ? onPointerUp : undefined}
+                cardRef={isTop ? cardRef : null}
+                style={{
+                  position: 'absolute', inset: 0,
+                  transform: `translate3d(${tx}px, ${ty}px, 0) rotate(${rot}deg) scale(${scale})`,
+                  opacity: op,
+                  transition,
+                  zIndex: 100 - depth,
+                  cursor: isTop ? drag.active ? 'grabbing' : 'grab' : 'default',
+                  pointerEvents: isTop ? 'auto' : 'none',
+                  boxShadow: isTop ?
+                    '0 28px 60px -22px rgba(60,40,20,0.32), 0 4px 12px rgba(60,40,20,0.08)' :
+                    `0 ${10 + depth * 4}px ${22 + depth * 4}px -14px rgba(60,40,20,${0.16 - depth * 0.03})`
+                }} />
+            );
+          })}
+
+          <div aria-hidden="true" style={{
+            position: 'absolute', top: '50%', left: -8, transform: 'translateY(-50%)',
+            fontFamily: 'var(--ff-display)', fontWeight: 300, fontSize: 38, color: 'var(--gold)',
+            opacity: drag.active && drag.x < -30 ? Math.min(1, -drag.x / 140) : 0,
+            transition: 'opacity 0.15s', pointerEvents: 'none'
+          }}>←</div>
+          <div aria-hidden="true" style={{
+            position: 'absolute', top: '50%', right: -8, transform: 'translateY(-50%)',
+            fontFamily: 'var(--ff-display)', fontWeight: 300, fontSize: 38, color: 'var(--gold)',
+            opacity: drag.active && drag.x > 30 ? Math.min(1, drag.x / 140) : 0,
+            transition: 'opacity 0.15s', pointerEvents: 'none'
+          }}>→</div>
+        </div>
+
+        {/* Right column */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 36, paddingLeft: rightPadL }}>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: 14 }}>
+            <span style={{
+              fontFamily: 'var(--ff-display)', fontWeight: 300, fontSize: bp === 'mobile' ? 52 : 64, lineHeight: 1,
+              color: 'var(--ink)', fontVariantNumeric: 'tabular-nums'
+            }}>
+              {String(counter).padStart(2, '0')}
+            </span>
+            <span style={{
+              fontFamily: 'var(--ff-display)', fontWeight: 300, fontSize: 24, color: 'var(--ink-light)',
+              fontVariantNumeric: 'tabular-nums'
+            }}>
+              / {String(total).padStart(2, '0')}
+            </span>
+          </div>
+
+          <div style={{ display: 'flex', gap: 6 }}>
+            {items.map((_, i) =>
+              <div key={i} style={{
+                width: i === top ? 28 : 8, height: 2,
+                background: i === top ? 'var(--gold)' : 'var(--rule)',
+                transition: 'width 0.5s cubic-bezier(0.16,1,0.3,1), background 0.3s'
+              }} />
+            )}
+          </div>
+
+          <p style={{
+            fontFamily: 'var(--ff-body)', fontSize: 14, lineHeight: 1.75,
+            color: 'var(--ink-mid)', maxWidth: 340, margin: 0
+          }}>
+            Six familles, six histoires. Faites défiler la pile pour découvrir comment nos résidents vivent leur MyBayt — au quotidien.
+          </p>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+            <DeckButton onClick={rewind} ariaLabel="Précédent">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M9 2L4 7l5 5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </DeckButton>
+            <DeckButton onClick={() => advance(1)} ariaLabel="Suivant" primary>
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M5 2l5 5-5 5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </DeckButton>
+            <span style={{
+              fontFamily: 'var(--ff-body)', fontSize: 11, letterSpacing: '0.08em',
+              textTransform: 'uppercase', color: 'var(--ink-light)', marginLeft: 4
+            }}>
+              Suivant
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Card({ item, isTop, style, cardRef, cardPadding, onPointerDown, onPointerMove, onPointerUp, onPointerCancel }) {
+  return (
+    <div
+      ref={cardRef}
+      onPointerDown={onPointerDown}
+      onPointerMove={onPointerMove}
+      onPointerUp={onPointerUp}
+      onPointerCancel={onPointerCancel}
+      style={{
+        background: 'white',
+        border: '1px solid var(--rule)',
+        padding: cardPadding || '48px 52px 36px',
+        display: 'flex', flexDirection: 'column', gap: 28,
+        willChange: 'transform',
+        touchAction: 'none',
+        ...style
+      }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div style={{
+          fontFamily: 'var(--ff-body)', fontSize: 10, letterSpacing: '0.12em', textTransform: 'uppercase',
+          color: 'var(--ink-mid)', border: '1px solid var(--rule)', padding: '6px 12px',
+          background: 'var(--bg-warm)'
+        }}>
+          {item.project}
+        </div>
+        <div style={{
+          fontFamily: 'var(--ff-body)', fontSize: 11, color: 'var(--ink-light)',
+          letterSpacing: '0.08em'
+        }}>{item.year}</div>
+      </div>
+
+      <div style={{
+        fontFamily: 'var(--ff-display)', fontStyle: 'italic', fontWeight: 300,
+        fontSize: 88, lineHeight: 0.5, color: 'var(--gold)', opacity: 0.6,
+        height: 30, userSelect: 'none', marginLeft: -4
+      }}>"</div>
+
+      <p style={{
+        fontFamily: 'var(--ff-display)', fontWeight: 300, fontStyle: 'italic',
+        fontSize: 'clamp(18px,2vw,26px)', lineHeight: 1.45,
+        color: 'var(--ink)', textWrap: 'pretty', margin: 0, flex: 1
+      }}>
+        {item.quote}
+      </p>
+
+      <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginTop: 8 }}>
+        <div style={{ width: 32, height: 1, background: 'var(--gold)' }} />
+        <div>
+          <div style={{ fontFamily: 'var(--ff-body)', fontWeight: 500, fontSize: 14, color: 'var(--ink)', marginBottom: 3 }}>
+            {item.author}
+          </div>
+          <div style={{ fontFamily: 'var(--ff-body)', fontSize: 11, color: 'var(--ink-light)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+            {item.role}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function DeckButton({ onClick, ariaLabel, children, primary }) {
+  const [hov, setHov] = useState(false);
+  return (
+    <button
+      onClick={onClick}
+      aria-label={ariaLabel}
+      onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
+      style={{
+        width: 48, height: 48, borderRadius: '50%',
+        background: primary ? hov ? 'oklch(52% 0.11 60)' : 'var(--gold)' : hov ? 'var(--ink)' : 'transparent',
+        border: primary ? 'none' : '1px solid var(--rule)',
+        color: primary ? 'white' : hov ? 'white' : 'var(--ink)',
+        cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+        transition: 'all 0.25s', flexShrink: 0
+      }}>
+      {children}
+    </button>
+  );
+}
+
+/* ── GoldRule ── */
+function GoldRule() {
+  const barRef = useRef(null);
+  useEffect(() => {
+    const bar = barRef.current;
+    if (!bar) return;
+    const section = bar.closest('section');
+    if (!section) return;
+    const timer = setTimeout(() => {
+      const obs = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting) {
+          bar.style.width = '100%';
+          obs.disconnect();
+        }
+      }, { threshold: 0, rootMargin: '0px 0px -15% 0px' });
+      obs.observe(section);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, []);
+  return (
+    <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'rgba(255,255,255,0.06)' }}>
+      <div ref={barRef} style={{
+        height: '100%', width: 0, background: 'var(--gold)',
+        transition: 'width 1.4s cubic-bezier(0.16,1,0.3,1)'
+      }} />
+    </div>
+  );
+}
+
+/* ── Contact transition curtain ── */
+function ContactTransition({ progress }) {
+  const t = clampN(progress / 0.30);
+  const e = 1 - Math.pow(1 - t, 3);
+  const h = e * 240;
+  const arc = Math.sin(t * Math.PI) * 80;
+  return (
+    <div aria-hidden="true" style={{
+      position: 'absolute', left: 0, right: 0,
+      top: -h, height: h,
+      pointerEvents: 'none', overflow: 'visible', zIndex: 2
+    }}>
+      <svg viewBox="0 0 1200 240" preserveAspectRatio="none"
+        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', display: 'block' }}>
+        <path
+          d={`M0,${arc} Q600,${-arc * 0.6} 1200,${arc} L1200,240 L0,240 Z`}
+          fill="var(--ink)" />
+      </svg>
+    </div>
+  );
+}
+
+/* ── Contact ── */
+function Contact() {
+  const bp = useBreakpoint();
+  const [form, setForm] = useState({ nom: '', email: '', message: '' });
+  const [sent, setSent] = useState(false);
+  const [sectionRef, progress] = useScrollProgress();
+  const handle = (k, v) => setForm(f => ({ ...f, [k]: v }));
+  const submit = (e) => {
+    e.preventDefault();
+    const f = e.currentTarget;
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      body: new FormData(f),
+      headers: { Accept: 'application/json' }
+    }).then(r => { if (r.ok) setSent(true); });
+  };
+
+  // Inputs: 16px on mobile to prevent iOS zoom-on-focus
+  const inputFontSize = bp === 'mobile' ? 16 : 14;
+  const inputPadding = bp === 'mobile' ? '14px 0' : '14px 0';
+  const inputStyle = {
+    width: '100%', fontFamily: 'var(--ff-body)', fontSize: inputFontSize, fontWeight: 300,
+    background: 'transparent', border: 'none', borderBottom: '1px solid rgba(255,255,255,0.15)',
+    padding: inputPadding, color: 'white', outline: 'none', transition: 'border-color 0.3s'
+  };
+
+  // Scroll-driven values
+  const headT = remap(progress, 0.16, 0.34);
+  const headE = 1 - Math.pow(1 - headT, 3);
+  const headTy = (1 - headE) * 60;
+  const headOpacity = headE;
+  const headScale = 0.96 + headE * 0.04;
+  const ebT = remap(progress, 0.12, 0.28);
+  const ebE = 1 - Math.pow(1 - ebT, 3);
+  const goldW = remap(progress, 0.20, 0.40) * 100;
+  const introT = remap(progress, 0.22, 0.38);
+  const phonesT = remap(progress, 0.28, 0.46);
+  const addrT = remap(progress, 0.36, 0.54);
+  const formT = remap(progress, 0.30, 0.50);
+
+  const stagger = (t) => {
+    const e = 1 - Math.pow(1 - t, 3);
+    return { opacity: e, transform: `translateY(${(1 - e) * 32}px)` };
+  };
+
+  const padX = bp === 'mobile' ? 20 : bp === 'tablet' ? 36 : 64;
+  const padTop = bp === 'mobile' ? 100 : 140;
+  const padBottom = bp === 'mobile' ? 56 : 72;
+
+  const gridCols = bp === 'mobile' ? '1fr' : '1fr 1fr';
+  const gridGap = bp === 'mobile' ? 48 : bp === 'tablet' ? 48 : 80;
+
+  // Form column: on mobile, no left rule; instead a top hairline + padding-top
+  const formColStyle = bp === 'mobile'
+    ? { paddingLeft: 0, ...stagger(formT), transition: 'opacity 0.05s linear, transform 0.05s linear' }
+    : bp === 'tablet'
+    ? { borderLeft: '1px solid rgba(255,255,255,0.1)', paddingLeft: 40, ...stagger(formT), transition: 'opacity 0.05s linear, transform 0.05s linear' }
+    : { borderLeft: '1px solid rgba(255,255,255,0.1)', paddingLeft: 80, ...stagger(formT), transition: 'opacity 0.05s linear, transform 0.05s linear' };
+
+  // On mobile: form is FIRST. We achieve this with grid order on the children.
+  const leftOrder = bp === 'mobile' ? 2 : 1;
+  const rightOrder = bp === 'mobile' ? 1 : 2;
+
+  // On mobile, the info block gets a top hairline and padding-top to replace the vertical rule
+  const leftMobileTop = bp === 'mobile'
+    ? { borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: 36 }
+    : {};
+
+  const phoneFontSize = bp === 'mobile' ? 20 : 26;
+  const submitFullWidth = bp === 'mobile';
+
+  return (
+    <section id="contact" ref={sectionRef} style={{
+      background: 'var(--ink)', padding: `${padTop}px ${padX}px ${padBottom}px`, position: 'relative', overflow: 'hidden', scrollMarginTop: 80
+    }}>
+      <ContactTransition progress={progress} />
+      <GoldRule />
+
+      <div style={{ marginBottom: bp === 'mobile' ? 48 : 72, position: 'relative', zIndex: 3 }}>
+        <p style={{
+          fontFamily: 'var(--ff-body)', fontSize: 11, letterSpacing: '0.16em',
+          textTransform: 'uppercase', color: 'var(--gold-light)', marginBottom: 20,
+          opacity: ebE,
+          transform: `translateY(${(1 - ebE) * 20}px)`,
+          transition: 'opacity 0.05s linear, transform 0.05s linear'
+        }}>Nous contacter</p>
+        <h2 style={{
+          fontFamily: 'var(--ff-display)', fontWeight: 300, fontSize: 'clamp(26px,3vw,42px)',
+          color: 'white', lineHeight: 1.1,
+          opacity: headOpacity,
+          transform: `translateY(${headTy}px) scale(${headScale})`,
+          transformOrigin: 'left center',
+          transition: 'opacity 0.05s linear, transform 0.05s linear'
+        }}>
+          Parlons de votre <em style={{ fontStyle: 'italic' }}>projet</em>
+        </h2>
+        <div style={{
+          marginTop: 28, height: 1, width: '100%',
+          background: 'linear-gradient(to right, var(--gold) 0%, var(--gold) 100%)',
+          backgroundSize: `${goldW}% 100%`, backgroundRepeat: 'no-repeat',
+          backgroundColor: 'rgba(255,255,255,0.06)'
+        }} />
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: gridCols, gap: gridGap, alignItems: 'start', position: 'relative', zIndex: 3 }}>
+
+        {/* Info column */}
+        <div style={{
+          display: 'flex', flexDirection: 'column', gap: 48,
+          order: leftOrder,
+          ...leftMobileTop
+        }}>
+          <p style={{
+            fontFamily: 'var(--ff-body)', fontSize: 14, lineHeight: 1.85,
+            color: 'rgba(255,255,255,0.45)', maxWidth: 360,
+            ...stagger(introT),
+            transition: 'opacity 0.05s linear, transform 0.05s linear'
+          }}>
+            MyBayt, c'est la liberté de choisir. Être bien chez soi, c'est vivre au lieu d'exister.
+          </p>
+
+          <div style={{ ...stagger(phonesT), transition: 'opacity 0.05s linear, transform 0.05s linear' }}>
+            <div style={{ fontFamily: 'var(--ff-body)', fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--gold-light)', marginBottom: 16 }}>Service commercial</div>
+            {['+212 6 66 09 19 09', '+212 6 66 09 57 08', '+212 5 21 44 81 87'].map((n, i) => {
+              const tt = remap(progress, 0.30 + i * 0.04, 0.46 + i * 0.04);
+              const ee = 1 - Math.pow(1 - tt, 3);
+              return (
+                <a key={n} href={`tel:${n}`} style={{
+                  display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                  fontFamily: 'var(--ff-display)', fontSize: phoneFontSize, fontWeight: 300,
+                  textDecoration: 'none', color: 'white', letterSpacing: '0.02em',
+                  padding: '16px 0', borderBottom: '1px solid rgba(255,255,255,0.08)',
+                  opacity: ee,
+                  transform: `translateX(${(1 - ee) * 24}px)`,
+                  transition: 'color 0.2s, opacity 0.05s linear, transform 0.05s linear'
+                }}
+                  onMouseEnter={(e) => e.currentTarget.style.color = 'var(--gold-light)'}
+                  onMouseLeave={(e) => e.currentTarget.style.color = 'white'}>
+                  <span>{n}</span>
+                  <span style={{ fontSize: 14, opacity: 0.35 }}>→</span>
+                </a>
+              );
+            })}
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 20, ...stagger(addrT), transition: 'opacity 0.05s linear, transform 0.05s linear' }}>
+            <div>
+              <div style={{ fontFamily: 'var(--ff-body)', fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)', marginBottom: 8 }}>Adresse</div>
+              <div style={{ fontFamily: 'var(--ff-body)', fontSize: 14, lineHeight: 1.7, color: 'rgba(255,255,255,0.5)' }}>N°6, Rue Capitaine ARRIGUI, Résidence ISIS<br />Appt. N°27 Guéliz — Marrakech, Maroc</div>
+            </div>
+            <div>
+              <div style={{ fontFamily: 'var(--ff-body)', fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)', marginBottom: 8 }}>Email</div>
+              <a href="mailto:contact@mybayt.ma" style={{ fontFamily: 'var(--ff-body)', fontSize: 14, color: 'var(--gold-light)', textDecoration: 'none', transition: 'opacity 0.2s' }}
+                onMouseEnter={(e) => e.currentTarget.style.opacity = '0.7'}
+                onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}>
+                contact@mybayt.ma
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {/* Form column */}
+        <div style={{ ...formColStyle, order: rightOrder }}>
+          {sent ?
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 16, paddingTop: 8 }}>
+              <div style={{ fontFamily: 'var(--ff-display)', fontSize: 48, color: 'var(--gold-light)' }}>✓</div>
+              <p style={{ fontFamily: 'var(--ff-display)', fontSize: 28, fontWeight: 300, color: 'white' }}>Message envoyé.</p>
+              <p style={{ fontFamily: 'var(--ff-body)', fontSize: 14, color: 'rgba(255,255,255,0.45)' }}>Notre équipe vous contactera dans les plus brefs délais.</p>
+              <button onClick={() => setSent(false)} style={{ alignSelf: 'flex-start', marginTop: 8, fontFamily: 'var(--ff-body)', fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', background: 'none', border: 'none', borderBottom: '1px solid rgba(255,255,255,0.3)', paddingBottom: 3, cursor: 'pointer', color: 'rgba(255,255,255,0.6)' }}>
+                Nouveau message
+              </button>
+            </div> :
+            <form action="https://api.web3forms.com/submit" method="POST" onSubmit={submit} style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
+              <input type="hidden" name="access_key" value="c49e329c-80f6-40e5-a823-97f598af4167" />
+              <input type="hidden" name="subject" value="Nouveau message depuis le site MyBayt" />
+              <input type="checkbox" name="botcheck" style={{ display: 'none' }} />
+              {[{ k: 'nom', name: 'name', label: 'Nom complet', type: 'text' }, { k: 'email', name: 'email', label: 'Adresse email', type: 'email' }].map(f =>
+                <div key={f.k}>
+                  <label style={{ fontFamily: 'var(--ff-body)', fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)', display: 'block', marginBottom: 4 }}>{f.label}</label>
+                  <input type={f.type} name={f.name} value={form[f.k]} required
+                    onChange={(e) => handle(f.k, e.target.value)}
+                    style={inputStyle}
+                    onFocus={(e) => e.target.style.borderBottomColor = 'var(--gold-light)'}
+                    onBlur={(e) => e.target.style.borderBottomColor = 'rgba(255,255,255,0.15)'} />
+                </div>
+              )}
+              <div>
+                <label style={{ fontFamily: 'var(--ff-body)', fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)', display: 'block', marginBottom: 4 }}>Message</label>
+                <textarea name="message" value={form.message} required rows={4}
+                  onChange={(e) => handle('message', e.target.value)}
+                  style={{ ...inputStyle, resize: 'none' }}
+                  onFocus={(e) => e.target.style.borderBottomColor = 'var(--gold-light)'}
+                  onBlur={(e) => e.target.style.borderBottomColor = 'rgba(255,255,255,0.15)'} />
+              </div>
+              <button type="submit" style={{
+                alignSelf: submitFullWidth ? 'stretch' : 'flex-start',
+                width: submitFullWidth ? '100%' : 'auto',
+                fontFamily: 'var(--ff-body)', fontSize: 12, fontWeight: 400,
+                letterSpacing: '0.12em', textTransform: 'uppercase', background: 'var(--gold)',
+                color: 'white', border: 'none',
+                padding: submitFullWidth ? '18px' : '16px 40px',
+                cursor: 'pointer',
+                transition: 'background 0.2s'
+              }}
+                onMouseEnter={(e) => e.currentTarget.style.background = 'oklch(52% 0.11 60)'}
+                onMouseLeave={(e) => e.currentTarget.style.background = 'var(--gold)'}>
+                Envoyer le message
+              </button>
+            </form>
+          }
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ── Footer ── */
+function Footer() {
+  const bp = useBreakpoint();
+  const padX = bp === 'mobile' ? 20 : bp === 'tablet' ? 36 : 64;
+  const padTop = bp === 'mobile' ? 48 : bp === 'tablet' ? 56 : 64;
+  const padBottom = bp === 'mobile' ? 28 : bp === 'tablet' ? 32 : 40;
+
+  const gridCols = bp === 'mobile'
+    ? '1fr'
+    : bp === 'tablet'
+    ? '1fr 1fr'
+    : '1.5fr 1fr 1fr';
+  const gridGap = bp === 'mobile' ? 36 : bp === 'tablet' ? 40 : 64;
+
+  const bottomDir = bp === 'mobile' ? 'column' : 'row';
+  const bottomGap = bp === 'mobile' ? 12 : 0;
+  const bottomAlign = bp === 'mobile' ? 'flex-start' : 'center';
+  const bottomJustify = bp === 'mobile' ? 'flex-start' : 'space-between';
+
+  return (
+    <footer style={{ background: 'var(--ink)', color: 'white', padding: `${padTop}px ${padX}px ${padBottom}px` }}>
+      <div style={{ display: 'grid', gridTemplateColumns: gridCols, gap: gridGap, marginBottom: bp === 'mobile' ? 40 : 64 }}>
+        <div>
+          <img src="assets/mybayt-logo.png" alt="MyBayt" style={{ height: 36, objectFit: 'contain', filter: 'brightness(0) invert(1)', marginBottom: 24 }} />
+          <p style={{ fontFamily: 'var(--ff-body)', fontSize: 13, lineHeight: 1.85, color: 'rgba(255,255,255,0.45)', maxWidth: 280 }}>
+            Promoteur de clarté et de transparence — projets résidentiels d'exception à Marrakech.
+          </p>
+        </div>
+        <div>
+          <div style={{ fontFamily: 'var(--ff-body)', fontSize: 11, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--gold-light)', marginBottom: 24 }}>Navigation</div>
+          {[['Accueil', '#'], ['Nos Projets', 'Nos Projets.html'], ['Contact', '#contact']].map(([l, href]) =>
+            <a key={l} href={href} style={{ display: 'block', fontFamily: 'var(--ff-body)', fontSize: 14, color: 'rgba(255,255,255,0.55)', textDecoration: 'none', marginBottom: 12, transition: 'color 0.2s' }}
+              onMouseEnter={(e) => e.currentTarget.style.color = 'white'}
+              onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255,255,255,0.55)'}>{l}</a>
+          )}
+        </div>
+        <div>
+          <div style={{ fontFamily: 'var(--ff-body)', fontSize: 11, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--gold-light)', marginBottom: 24 }}>Contact</div>
+          {['+212 6 66 09 19 09', '+212 6 66 09 57 08', '+212 5 21 44 81 87'].map(n =>
+            <a key={n} href={`tel:${n}`} style={{ display: 'block', fontFamily: 'var(--ff-body)', fontSize: 14, color: 'rgba(255,255,255,0.55)', textDecoration: 'none', marginBottom: 12, transition: 'color 0.2s' }}
+              onMouseEnter={(e) => e.currentTarget.style.color = 'white'}
+              onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255,255,255,0.55)'}>{n}</a>
+          )}
+        </div>
+      </div>
+      <div style={{
+        borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: 32,
+        display: 'flex', flexDirection: bottomDir, gap: bottomGap,
+        justifyContent: bottomJustify, alignItems: bottomAlign
+      }}>
+        <span style={{ fontFamily: 'var(--ff-body)', fontSize: 12, color: 'rgba(255,255,255,0.3)' }}>© 2026 MyBayt.ma — Tous droits réservés</span>
+        <span style={{ fontFamily: 'var(--ff-body)', fontSize: 12, color: 'rgba(255,255,255,0.3)' }}>By Amine Ouarzazi</span>
+      </div>
+    </footer>
+  );
+}
+
+/* ── Tweaks ── */
+function TweaksPanel({ show, onClose }) {
+  const [gold, setGold] = useState('oklch(60% 0.11 60)');
+  const [fontScale, setFontScale] = useState(100);
+
+  useEffect(() => {
+    document.documentElement.style.setProperty('--gold', gold);
+  }, [gold]);
+  useEffect(() => {
+    document.documentElement.style.fontSize = fontScale + '%';
+  }, [fontScale]);
+
+  if (!show) return null;
+  return (
+    <div style={{
+      position: 'fixed', bottom: 24, right: 24, zIndex: 999,
+      background: 'white', borderRadius: 2, padding: 28, width: 280, maxWidth: 'calc(100vw - 32px)',
+      boxShadow: '0 12px 48px rgba(0,0,0,0.14)',
+      fontFamily: 'var(--ff-body)', fontSize: 13, color: 'var(--ink)'
+    }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
+        <span style={{ fontWeight: 500, letterSpacing: '0.06em', textTransform: 'uppercase', fontSize: 11 }}>Tweaks</span>
+        <button onClick={onClose} style={{ background: 'none', border: 'none', fontSize: 18, cursor: 'pointer', color: 'var(--ink-light)' }}>×</button>
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+        <div>
+          <label style={{ display: 'block', fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-light)', marginBottom: 10 }}>Couleur accent</label>
+          <div style={{ display: 'flex', gap: 8 }}>
+            {[
+              { label: 'Or', val: 'oklch(60% 0.11 60)' },
+              { label: 'Rose', val: 'oklch(58% 0.12 20)' },
+              { label: 'Ardoise', val: 'oklch(50% 0.06 230)' },
+              { label: 'Vert', val: 'oklch(55% 0.1 155)' }
+            ].map(c =>
+              <button key={c.label} onClick={() => setGold(c.val)} style={{
+                flex: 1, height: 28, background: c.val,
+                border: gold === c.val ? '2px solid var(--ink)' : '2px solid transparent',
+                borderRadius: 2, cursor: 'pointer', fontSize: 9, color: 'white',
+                fontFamily: 'var(--ff-body)', letterSpacing: '0.04em'
+              }}>{c.label}</button>
+            )}
+          </div>
+        </div>
+        <div>
+          <label style={{ display: 'block', fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-light)', marginBottom: 10 }}>
+            Taille du texte — {fontScale}%
+          </label>
+          <input type="range" min={85} max={115} value={fontScale}
+            onChange={(e) => setFontScale(+e.target.value)}
+            style={{ width: '100%', accentColor: 'var(--gold)' }} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── App ── */
+function App() {
+  const [tweaks, setTweaks] = useState(false);
+
+  useEffect(() => {
+    const handler = (e) => {
+      if (e.data?.type === '__activate_edit_mode') setTweaks(true);
+      if (e.data?.type === '__deactivate_edit_mode') setTweaks(false);
+    };
+    window.addEventListener('message', handler);
+    window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+    return () => window.removeEventListener('message', handler);
+  }, []);
+
+  const close = () => {
+    setTweaks(false);
+    window.parent.postMessage({ type: '__edit_mode_dismissed' }, '*');
+  };
+
+  const bp = useBreakpoint();
+  const ruleTopPad = bp === 'mobile' ? 32 : 48;
+
+  return (
+    <>
+      <Nav />
+      <Hero />
+      <div style={{ padding: `${ruleTopPad}px 0 0` }}>
+        <Rule label="À propos" />
+      </div>
+      <About />
+      <Values />
+      <Projects />
+      <Testimonials />
+      <Contact />
+      <Footer />
+      <TweaksPanel show={tweaks} onClose={close} />
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
